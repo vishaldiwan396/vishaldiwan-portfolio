@@ -112,7 +112,7 @@ const CASES = [
 const WORK = [
   {
     name: 'EPIC AI Learning Programme & Live Skills Library',
-    text: ' an eight-module curriculum for AI adoption across the firm, plus a dossier of the twelve AI skills running in production. Every module and every skill holds the same operating rule: AI drafts, a person reviews and approves before anything is final.',
+    text: ' the firm’s AI governance and enablement programme: an eight-module curriculum taking teams from prompting through connectors, research and custom skill-building, alongside a dossier of the twelve AI skills running in production. I defined the operating rule that runs through all of it — AI drafts, a person reviews and approves, and nothing is final until they do.',
     links: [
       {
         href: 'https://epicipprojects.com/epic-ai-guide/index.html',
@@ -188,25 +188,20 @@ const SCOPE = [
 ]
 
 const ESSAY = [
-  'The AI projects I have watched die badly died the same way. Not because the model was weak, but because nobody agreed in advance what “not good enough” looked like. When the results came in there was nothing to measure them against except how much work had already gone in.',
-  'Here is the one that made me write the number down first.',
-  'Payroll enquiries arrived as email. Not structured requests, not tickets: email, scattered across mailboxes, most of it buried three replies deep in a chain where the question had been restated twice and answered once. Someone resolved each of them by hand. Average time to close was three days.',
-  'That is a good-looking AI problem. Unstructured text in, structured answer out, a clear before number. We scoped a system to read the enquiry, pull the relevant payroll data, and draft the resolution.',
-  'Before building, I wrote down a pass threshold. 70%. Below that, we do not ship.',
-  'The first eval came back under it. That was expected; first evals usually are. So we did the data cleanup pass, which is the step everyone assumes will fix it. It capped at 53%.',
-  'The failures were the useful part. They were not prompt failures. Rewriting the prompt moved nothing, because the model was not misunderstanding the instruction. It was filling gaps in the input. When an enquiry does not contain the employee reference, or contains two contradictory ones from different points in the thread, a language model does not stop and ask. It produces the most probable reference. That is not a bug you fix with better instructions. It is the model doing what it does, applied to a source that never held the answer.',
-  'The second constraint was harder. No API access to the payroll software, so nothing could be read at source and checked. There was no grounding available even if the input had been clean.',
-  'At that point the question stops being “can we get this to 70%” and becomes “what would have to be true for 70% to be reachable”. The answer was: different input. Which is a different project.',
-  'So we killed it and shipped the boring thing.',
-  'The Payroll Enquiry Tracker is rule-based with a human in the loop. Deterministic routing, and the part that mattered more, an interface that walks the requester through submitting the enquiry so it arrives complete. It cannot then leave the system and reappear as a reply in somebody’s inbox.',
-  'Enquiries now close in one to two days, against a previous average of three.',
-  'None of that came from a model. It came from writing the rules down and fixing the path the user was already on. The enquiry was never hard to answer. It was hard to find, hard to read, and easy to lose. We had been proposing to build something clever to compensate for a form that did not exist.',
-  'I want to be careful with the lesson, because there is a smug version of it I do not believe. The rule-based system was not the humble correct answer that the AI attempt was too pleased with itself to see. We did not know it was the right answer at the start. The eval is what told us. It showed that the input was the problem, and once the input is the problem, the fix sits upstream of any model.',
-  'Which brings me back to the number.',
-  'A threshold agreed after the results are in is not a threshold. It is a negotiation, and the negotiation has a predictable outcome, because by then the system exists, somebody has demonstrated it to their manager, and the word “pilot” has been said in a meeting. 53% against a bar set that morning is a conversation about whether 53 is really so far from 70. 53% against a bar set before a line of it was built, in writing, in front of the people who would have to use the thing, is an answer.',
-  'So write the threshold down first. Put it where other people can see it. Say what happens if you miss it, in the same sentence.',
-  'This costs nothing at the start, when nobody is invested and the number is theoretical. It is unaffordable later. The value is not that the number is correct. 70% was a judgement call and I would defend it, but it was a judgement call. The value is that it was fixed before anyone had a reason to want it lower.',
-  'The harder discipline is not killing the project. It is being the person who set the number, in public, knowing you will have to read it out.',
+  'The interesting question about an AI feature is almost never whether the model can do it. Given enough scaffolding it usually can, on a good day, in a demo. The question is whether the thing you build will still be worth running in two years, and who is going to keep it alive.',
+  'I am the first product manager EPIC Investment Partners has had. Part of that job was writing down what an AI system has to prove before an operations team is allowed to act on its output. The rule I settled on is unglamorous, and it now runs through everything the firm does with AI: the model drafts, a person reviews and approves, and nothing is final until they do. It sits at the top of every module in the firm’s AI programme and inside every one of the skills running in production.',
+  'That rule is not there because the models are weak. It is there because the cost of a wrong figure in a fund document is not symmetrical with the cost of a slower one.',
+  'The second rule is harder to hold, because it disappoints people: most workflows that look like AI problems are not.',
+  'We tried to automate payroll enquiries with a language model. They arrived as email, scattered across mailboxes, buried in reply chains. It looked ideal. Unstructured text in, structured answer out. It did not work, and the eval said so before anyone’s feelings were involved: the pass rate capped at 53% against a threshold of 70% that we had written down before the build started. The failures were not prompt failures. The model was filling gaps in the input, because the input frequently did not contain the answer.',
+  'So we shipped a rule-based tracker with a human in the loop, and an interface that makes the enquiry arrive complete. Resolution went from an average of three days to one or two. None of it came from a model.',
+  'The part worth taking from that is not the number. It is what the alternative would have cost. To force the model over the line we would have had to build scaffolding around it: extraction heuristics, fallback rules, a correction interface, some notion of confidence, and an eval suite to keep the whole arrangement honest. All of that is real software. It has to be maintained, re-tuned when a vendor deprecates a model, re-evaluated when the data drifts, and explained to every new person who inherits it.',
+  'A complicated system solving a simple problem is not a clever outcome. It is a liability with a long tail, and the tail is usually paid by whoever comes after you.',
+  'The third rule follows from the second. Sometimes the correct decision is to wait.',
+  'The capability curve is steep at the moment. A workflow that today needs six pieces of custom scaffolding to reach an acceptable pass rate may need one, or none, in a year, when the models handle natively what you are currently propping up. Build the elaborate version now and you own it. You will still own it after the capability lands and quietly makes it redundant.',
+  'Waiting is not the same as doing nothing. In the payroll case it meant shipping the deterministic system that solved the actual problem and leaving the door open. The tracker is not a consolation prize. It is a smaller surface with fewer failure modes, and if the models later get good enough to take more of it, that is a far cleaner thing to extend than a pile of workarounds would have been.',
+  'What this looks like day to day is fairly mundane. Write the pass threshold down before the eval runs, where other people can see it, because a threshold agreed afterwards is a negotiation, and the negotiation tends to end with the model shipping. Run the cheap deterministic path first and treat the model as an escalation rather than a front door. Make human approval an explicit design decision about which claims the system is permitted to assert on its own.',
+  'And be willing to say not yet. That is the one that is genuinely hard, because from the outside it can look like a lack of ambition, and it always costs you the demo.',
+  'The AI work I am most confident about is not the most sophisticated. It is the part that is still running, unattended, that nobody has had to come back and rescue.',
 ]
 
 function ThresholdFigure() {
@@ -467,10 +462,11 @@ function App() {
       <section className="section reveal-el essay">
         <div className="col">
           <span className="section-label">Writing</span>
-          <h3>The 53% Rule</h3>
+          <h3>When Not to Build</h3>
           <p className="essay-standfirst">
-            The scarce skill is not building with AI. It is setting the number
-            that tells you to stop.
+            Most of the judgement in AI product work is deciding what not to
+            automate, and when to wait for the technology instead of building
+            around it.
           </p>
           <div className="essay-body">
             {ESSAY.map((para, i) => (
