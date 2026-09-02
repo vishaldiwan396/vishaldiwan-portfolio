@@ -10,15 +10,353 @@ const CURVES = [
 
 function Curve({ index = 0 }) {
   return (
-    <svg
-      className="curve reveal-el"
-      viewBox="0 0 1200 44"
-      preserveAspectRatio="none"
-      aria-hidden="true"
-      focusable="false"
-    >
-      <path d={CURVES[index % CURVES.length]} />
-    </svg>
+    <div className="curve-wrap" data-parallax>
+      <svg
+        className="curve reveal-el"
+        viewBox="0 0 1200 44"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <path d={CURVES[index % CURVES.length]} />
+      </svg>
+    </div>
+  )
+}
+
+/* Before / after on the same scale. The Basis note argues every result
+   here is a time figure; this is that argument made visible. */
+function TimeBar({ label, beforeLabel, afterLabel, ratio }) {
+  return (
+    <div className="timebar reveal-el">
+      <p className="timebar-label">{label}</p>
+      <div className="timebar-row">
+        <span className="timebar-key">Before</span>
+        <span className="timebar-track">
+          <span className="timebar-fill is-before" />
+        </span>
+        <span className="timebar-val">{beforeLabel}</span>
+      </div>
+      <div className="timebar-row">
+        <span className="timebar-key">After</span>
+        <span className="timebar-track">
+          <span
+            className="timebar-fill is-after"
+            style={{ '--w': `${Math.round(ratio * 100)}%` }}
+          />
+        </span>
+        <span className="timebar-val">{afterLabel}</span>
+      </div>
+    </div>
+  )
+}
+
+function NavDiagram() {
+  return (
+    <figure className="diagram reveal-el">
+      <svg
+        viewBox="0 0 620 250"
+        role="img"
+        aria-label="Reconciliation flow: records enter rule lookups; matches clear without a human, and only rule failures escalate to an investigation agent, which flags a likely cause for human review rather than resolving it."
+      >
+        <defs>
+          <marker
+            id="nav-arrow"
+            viewBox="0 0 8 8"
+            refX="7"
+            refY="4"
+            markerWidth="7"
+            markerHeight="7"
+            orient="auto"
+          >
+            <polygon points="0,1 8,4 0,7" fill="currentColor" />
+          </marker>
+        </defs>
+
+        <g className="dg-node" data-step="1">
+          <rect x="6" y="20" width="140" height="54" />
+          <text x="76" y="44">Four data feeds</text>
+          <text x="76" y="61" className="dg-sub">records in</text>
+        </g>
+
+        <g className="dg-edge" data-step="2">
+          <line x1="146" y1="47" x2="190" y2="47" markerEnd="url(#nav-arrow)" />
+        </g>
+
+        <g className="dg-node" data-step="3">
+          <rect x="196" y="20" width="140" height="54" />
+          <text x="266" y="44">Rule lookups</text>
+          <text x="266" y="61" className="dg-sub">deterministic</text>
+        </g>
+
+        <g className="dg-edge" data-step="4">
+          <line x1="266" y1="74" x2="266" y2="144" markerEnd="url(#nav-arrow)" />
+          <text x="278" y="112" className="dg-edge-label is-side">match</text>
+        </g>
+
+        <g className="dg-node is-good" data-step="5">
+          <rect x="196" y="150" width="140" height="54" />
+          <text x="266" y="174">Cleared</text>
+          <text x="266" y="191" className="dg-sub">90% of mismatches</text>
+        </g>
+
+        <g className="dg-edge" data-step="6">
+          <line x1="336" y1="47" x2="414" y2="47" markerEnd="url(#nav-arrow)" />
+          <text x="375" y="38" className="dg-edge-label">no match</text>
+        </g>
+
+        <g className="dg-node is-halt" data-step="7">
+          <rect x="420" y="20" width="140" height="54" />
+          <text x="490" y="44">Investigation agent</text>
+          <text x="490" y="61" className="dg-sub">semantic + vector</text>
+        </g>
+
+        <g className="dg-edge" data-step="8">
+          <line x1="490" y1="74" x2="490" y2="144" markerEnd="url(#nav-arrow)" />
+          <text x="502" y="112" className="dg-edge-label is-side">flags cause</text>
+        </g>
+
+        <g className="dg-node" data-step="9">
+          <rect x="420" y="150" width="140" height="54" />
+          <text x="490" y="174">Human review</text>
+          <text x="490" y="191" className="dg-sub">70% pass first look</text>
+        </g>
+
+        <text x="6" y="232" className="dg-note">
+          The agent flags a likely cause. It never auto-resolves.
+        </text>
+      </svg>
+      <figcaption>
+        The cheap deterministic path runs first. The model is an escalation, not
+        a front door.
+      </figcaption>
+    </figure>
+  )
+}
+
+function McpDiagram() {
+  return (
+    <figure className="diagram reveal-el">
+      <svg
+        viewBox="0 0 620 150"
+        role="img"
+        aria-label="The profile workflow queries a custom MCP server, which reads the Dynamo CRM over REST against an OpenAPI spec, so every figure returns from a source record rather than from the model's memory."
+      >
+        <defs>
+          <marker
+            id="mcp-arrow"
+            viewBox="0 0 8 8"
+            refX="7"
+            refY="4"
+            markerWidth="7"
+            markerHeight="7"
+            orient="auto"
+          >
+            <polygon points="0,1 8,4 0,7" fill="currentColor" />
+          </marker>
+        </defs>
+
+        <g className="dg-node" data-step="1">
+          <rect x="6" y="16" width="150" height="52" />
+          <text x="81" y="39">Profile workflow</text>
+          <text x="81" y="56" className="dg-sub">drafts the document</text>
+        </g>
+
+        <g className="dg-edge" data-step="2">
+          <line x1="156" y1="42" x2="228" y2="42" markerEnd="url(#mcp-arrow)" />
+          <text x="192" y="33" className="dg-edge-label">query</text>
+        </g>
+
+        <g className="dg-node is-good" data-step="3">
+          <rect x="236" y="16" width="150" height="52" />
+          <text x="311" y="39">MCP server</text>
+          <text x="311" y="56" className="dg-sub">internal infra</text>
+        </g>
+
+        <g className="dg-edge" data-step="4">
+          <line x1="386" y1="42" x2="462" y2="42" markerEnd="url(#mcp-arrow)" />
+          <text x="424" y="33" className="dg-edge-label">REST</text>
+        </g>
+
+        <g className="dg-node" data-step="5">
+          <rect x="470" y="16" width="144" height="52" />
+          <text x="542" y="39">Dynamo CRM</text>
+          <text x="542" y="56" className="dg-sub">system of record</text>
+        </g>
+
+        <g className="dg-edge is-return" data-step="6">
+          <polyline
+            points="542,68 542,100 81,100 81,74"
+            markerEnd="url(#mcp-arrow)"
+          />
+          <text x="311" y="120" className="dg-edge-label">
+            every figure resolves to a source record
+          </text>
+        </g>
+      </svg>
+      <figcaption>
+        The workflow reads from the record, not from the model’s memory.
+        Unsourced claims are held for human review rather than drafted.
+      </figcaption>
+    </figure>
+  )
+}
+
+/* ------------------------------------------------------------------
+   Generative field.
+
+   Seeded value-noise flow field. Most paths resolve along the field;
+   a small minority diverge and are drawn in the escalation colour.
+   Same argument the page makes, drawn rather than stated. Seeded, so
+   the composition is identical on every load.
+   ------------------------------------------------------------------ */
+const FIELD_SEED = 20240701
+
+function mulberry32(a) {
+  return function rng() {
+    a |= 0
+    a = (a + 0x6d2b79f5) | 0
+    let t = Math.imul(a ^ (a >>> 15), 1 | a)
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296
+  }
+}
+
+function makeNoise(rng) {
+  const size = 64
+  const lattice = new Float32Array(size * size)
+  for (let i = 0; i < lattice.length; i += 1) lattice[i] = rng()
+  const smooth = (t) => t * t * (3 - 2 * t)
+  return function noise(x, y) {
+    const xi = Math.floor(x)
+    const yi = Math.floor(y)
+    const xf = smooth(x - xi)
+    const yf = smooth(y - yi)
+    const at = (gx, gy) =>
+      lattice[(((gy % size) + size) % size) * size + (((gx % size) + size) % size)]
+    const a = at(xi, yi)
+    const b = at(xi + 1, yi)
+    const c = at(xi, yi + 1)
+    const d = at(xi + 1, yi + 1)
+    return a + (b - a) * xf + (c - a) * yf + (a - b - c + d) * xf * yf
+  }
+}
+
+function Field() {
+  const canvasRef = useRef(null)
+
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return undefined
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return undefined
+
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    let raf = 0
+    let paths = []
+    let step = 0
+    let steps = 96
+
+    const build = () => {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2)
+      const w = canvas.clientWidth
+      const h = canvas.clientHeight
+      if (!w || !h) return
+      canvas.width = Math.floor(w * dpr)
+      canvas.height = Math.floor(h * dpr)
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+      ctx.clearRect(0, 0, w, h)
+
+      const rng = mulberry32(FIELD_SEED)
+      const noise = makeNoise(rng)
+      const count = Math.max(60, Math.round(w / 5))
+      const scale = 0.0042
+
+      paths = []
+      for (let i = 0; i < count; i += 1) {
+        // A small minority diverge from the field. Those are the escalations.
+        const diverges = rng() < 0.055
+        paths.push({
+          x: rng() * w,
+          y: rng() * h,
+          diverges,
+          drift: (rng() - 0.5) * 0.9,
+          pts: [],
+        })
+      }
+
+      for (let s = 0; s < steps; s += 1) {
+        paths.forEach((p) => {
+          p.pts.push([p.x, p.y])
+          const n = noise(p.x * scale * 12, p.y * scale * 12)
+          const angle = n * Math.PI * 2 + (p.diverges ? p.drift * s * 0.02 : 0)
+          p.x += Math.cos(angle) * 2.1
+          p.y += Math.sin(angle) * 2.1 * 0.55
+        })
+      }
+      step = reduce ? steps : 0
+    }
+
+    const paint = () => {
+      const w = canvas.clientWidth
+      const h = canvas.clientHeight
+      ctx.clearRect(0, 0, w, h)
+      paths.forEach((p) => {
+        const upto = Math.min(step, p.pts.length)
+        if (upto < 2) return
+        ctx.beginPath()
+        ctx.moveTo(p.pts[0][0], p.pts[0][1])
+        for (let i = 1; i < upto; i += 1) ctx.lineTo(p.pts[i][0], p.pts[i][1])
+        ctx.strokeStyle = p.diverges
+          ? 'rgba(138, 98, 32, 0.5)'
+          : 'rgba(35, 32, 27, 0.14)'
+        ctx.lineWidth = p.diverges ? 1.1 : 0.8
+        ctx.stroke()
+      })
+    }
+
+    const tick = () => {
+      if (step < steps) {
+        step += 1
+        paint()
+        raf = window.requestAnimationFrame(tick)
+      }
+    }
+
+    const start = () => {
+      build()
+      paint()
+      if (!reduce && step < steps) raf = window.requestAnimationFrame(tick)
+    }
+
+    start()
+
+    let resizeTimer
+    const onResize = () => {
+      window.clearTimeout(resizeTimer)
+      resizeTimer = window.setTimeout(() => {
+        window.cancelAnimationFrame(raf)
+        start()
+      }, 200)
+    }
+    window.addEventListener('resize', onResize)
+
+    return () => {
+      window.cancelAnimationFrame(raf)
+      window.clearTimeout(resizeTimer)
+      window.removeEventListener('resize', onResize)
+    }
+  }, [])
+
+  return (
+    <figure className="field">
+      <canvas
+        ref={canvasRef}
+        role="img"
+        aria-label="A generated flow field. Most paths resolve along the same underlying field; a small number diverge and are drawn in the escalation colour."
+      />
+      <figcaption>Most paths resolve. A few escalate.</figcaption>
+    </figure>
   )
 }
 
@@ -35,6 +373,12 @@ const CASES = [
     title: 'AI Payroll Automation',
     stamp: { tone: 'halted', label: 'Killed' },
     figure: true,
+    time: {
+      label: 'Time to close an enquiry',
+      beforeLabel: '3 days',
+      afterLabel: '1–2 days',
+      ratio: 0.5,
+    },
     body: [
       {
         lead: 'The problem.',
@@ -61,6 +405,13 @@ const CASES = [
   {
     title: 'Agentic NAV Reconciliation',
     stamp: { tone: 'delivered', label: 'Delivered' },
+    diagram: 'nav',
+    time: {
+      label: 'Reconciliation cycle',
+      beforeLabel: '4 hours',
+      afterLabel: '30 minutes',
+      ratio: 0.125,
+    },
     body: [
       {
         lead: 'The problem.',
@@ -87,6 +438,13 @@ const CASES = [
   {
     title: 'Multi-Agent Investment Profiles',
     stamp: { tone: 'delivered', label: 'Delivered' },
+    diagram: 'mcp',
+    time: {
+      label: 'Time to assemble a short profile',
+      beforeLabel: '12 hours',
+      afterLabel: '90 minutes',
+      ratio: 0.125,
+    },
     body: [
       {
         lead: 'The problem.',
@@ -269,12 +627,30 @@ function App() {
       safety = window.setTimeout(revealAll, 4000)
     }
 
-    const onScroll = () => {
+    const parallax = reduce ? [] : Array.from(document.querySelectorAll('[data-parallax]'))
+    let ticking = false
+
+    const paint = () => {
+      ticking = false
       const bar = progressRef.current
-      if (!bar) return
-      const max = document.body.scrollHeight - window.innerHeight
-      const p = max > 0 ? Math.min(window.scrollY / max, 1) : 0
-      bar.style.transform = `scaleX(${p})`
+      if (bar) {
+        const max = document.body.scrollHeight - window.innerHeight
+        const p = max > 0 ? Math.min(window.scrollY / max, 1) : 0
+        bar.style.transform = `scaleX(${p})`
+      }
+      const mid = window.innerHeight / 2
+      parallax.forEach((el) => {
+        const rect = el.getBoundingClientRect()
+        if (rect.bottom < -200 || rect.top > window.innerHeight + 200) return
+        // Drift the dividers slightly against the scroll so the page has depth.
+        el.style.transform = `translateY(${((rect.top - mid) / mid) * -9}px)`
+      })
+    }
+
+    const onScroll = () => {
+      if (ticking) return
+      ticking = true
+      window.requestAnimationFrame(paint)
     }
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
@@ -305,6 +681,9 @@ function App() {
             Employee #8 at a company with no product team. First PM at a fintech
             with no product function. What follows is the record.
           </p>
+        </div>
+        <div className="col">
+          <Field />
         </div>
       </header>
 
@@ -379,6 +758,8 @@ function App() {
                 <Stamp tone={c.stamp.tone}>{c.stamp.label}</Stamp>
               </div>
               {c.figure ? <ThresholdFigure /> : null}
+              {c.diagram === 'nav' ? <NavDiagram /> : null}
+              {c.diagram === 'mcp' ? <McpDiagram /> : null}
               <div className="case-body">
                 {c.body.map((p) => (
                   <p key={p.lead}>
@@ -387,6 +768,7 @@ function App() {
                   </p>
                 ))}
               </div>
+              {c.time ? <TimeBar {...c.time} /> : null}
               {i < CASES.length - 1 ? <Curve index={i + 2} /> : null}
             </div>
           </article>
