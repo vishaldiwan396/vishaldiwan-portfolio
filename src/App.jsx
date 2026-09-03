@@ -57,7 +57,7 @@ function NavDiagram() {
       <svg
         viewBox="0 0 620 250"
         role="img"
-        aria-label="Reconciliation flow: records enter rule lookups; matches clear without a human, and only rule failures escalate to an investigation agent, which flags a likely cause for human review rather than resolving it."
+        aria-label="Reconciliation flow: records enter rule lookups. Matches clear outright and need no review, covering 90% of mismatches. Only rule failures escalate to an investigation agent, which flags a likely cause; every one of those goes to a human, and 70% are approved unchanged."
       >
         <defs>
           <marker
@@ -97,7 +97,7 @@ function NavDiagram() {
         <g className="dg-node is-good" data-step="5">
           <rect x="196" y="150" width="140" height="54" />
           <text x="266" y="174">Cleared</text>
-          <text x="266" y="191" className="dg-sub">90% of mismatches</text>
+          <text x="266" y="191" className="dg-sub">90%, no review</text>
         </g>
 
         <g className="dg-edge" data-step="6">
@@ -119,7 +119,7 @@ function NavDiagram() {
         <g className="dg-node" data-step="9">
           <rect x="420" y="150" width="140" height="54" />
           <text x="490" y="174">Human review</text>
-          <text x="490" y="191" className="dg-sub">70% pass first look</text>
+          <text x="490" y="191" className="dg-sub">70% approved as-is</text>
         </g>
 
         <text x="6" y="232" className="dg-note">
@@ -477,7 +477,7 @@ const CASES = [
   {
     title: 'AI Payroll Automation',
     stamp: { tone: 'halted', label: 'Killed' },
-    team: 'EPIC Investment Partners · 2024– · 2–3 engineers, 1 designer, 1 QA · product, delivery and architecture: me',
+    team: 'EPIC Investment Partners · 2024– · 2–3 engineers, 1 designer, 1 QA',
     figure: true,
     time: {
       label: 'Time to close an enquiry',
@@ -509,9 +509,46 @@ const CASES = [
     ],
   },
   {
+    title: 'KYC Extraction: Choosing the Model',
+    stamp: { tone: 'delivered', label: 'Delivered' },
+    team: 'EPIC Investment Partners \u00b7 2024\u2013 \u00b7 2\u20133 engineers, 1 designer, 1 QA',
+    time: {
+      label: 'Manual data entry per form',
+      beforeLabel: '15 minutes',
+      afterLabel: 'under 3 minutes',
+      ratio: 0.2,
+    },
+    body: [
+      {
+        lead: 'The problem.',
+        text: ' KYC forms were keyed in by hand, around fifteen minutes each. Any model could plausibly do the extraction. The question was which one to put into production, and how to know rather than guess.',
+      },
+      {
+        lead: 'How I decided to find out.',
+        text: ' A golden dataset, built before any model was chosen: 50 documents, 100+ fields each, scored field by field against the operations team\u2019s own manual extraction. That is 5,000+ field-level comparisons, and it made the question answerable instead of arguable.',
+      },
+      {
+        lead: 'The field.',
+        text: ' Six frontier models, benchmarked through OpenRouter \u2014 ChatGPT, Claude Sonnet, Grok, Gemini, Kimi and GLM.',
+      },
+      {
+        lead: 'The decision.',
+        text: ' Google Document AI with Gemini Flash. Chosen on cost, effectiveness and accuracy together rather than accuracy alone: at this volume the difference between models is paid every single day, and a marginally better score is not worth an unbounded bill.',
+      },
+      {
+        lead: 'Result.',
+        text: ' In production across 12 document types. Capacity went from 30 to 300+ forms a day with no added headcount, and manual entry fell from fifteen minutes a form to under three. Clean-pass runs 90%+ on UK English-language documents and around 70% on German, French and Swiss ones; the rest are handled by hand.',
+      },
+      {
+        lead: 'What I take from it.',
+        text: ' Build the golden set before picking the model. Once the scoring is fixed and public, model choice stops being a matter of taste and becomes a matter of arithmetic \u2014 and the arithmetic usually includes a cost column that the benchmark leaderboards leave out.',
+      },
+    ],
+  },
+  {
     title: 'Agentic NAV Reconciliation',
     stamp: { tone: 'delivered', label: 'Delivered' },
-    team: 'EPIC Investment Partners · 2024– · 2–3 engineers, 1 designer, 1 QA · product, delivery and architecture: me',
+    team: 'EPIC Investment Partners · 2024– · 2–3 engineers, 1 designer, 1 QA',
     diagram: 'nav',
     time: {
       label: 'Reconciliation cycle',
@@ -534,7 +571,7 @@ const CASES = [
       },
       {
         lead: 'Result.',
-        text: ' 90% of NAV mismatches clear without human intervention, rules and AI combined. Of the cases that do reach a human, 70% pass clean on first look. Cycle time went from four hours to thirty minutes. Output quality spot-checked via LLM-as-judge review. These are operational figures from running the system, not a formal audited evaluation.',
+        text: ' The rules clear 90% of mismatches outright, and those need no review. The remaining 10% are what the agent sees, and every one of them goes to a human: 70% are approved as they stand, without a change. Cycle time went from four hours to thirty minutes. Output quality spot-checked via LLM-as-judge review. These are operational figures from running the system, not a formal audited evaluation.',
       },
       {
         lead: 'What I take from it.',
@@ -545,7 +582,7 @@ const CASES = [
   {
     title: 'Multi-Agent Investment Profiles',
     stamp: { tone: 'delivered', label: 'Delivered' },
-    team: 'EPIC Investment Partners · 2024– · 2–3 engineers, 1 designer, 1 QA · product, delivery and architecture: me',
+    team: 'EPIC Investment Partners · 2024– · 2–3 engineers, 1 designer, 1 QA',
     diagram: 'mcp',
     time: {
       label: 'Time to assemble a short profile',
@@ -588,18 +625,6 @@ const WORK = [
       { href: 'https://epicipprojects.com/epic-ai-guide/index.html', label: 'Programme' },
       { href: 'https://epicipprojects.com/epic-ai-guide/skills-library.html', label: 'Skills library' },
     ],
-    stamps: [{ tone: 'delivered', label: 'Delivered' }],
-  },
-  {
-    name: 'KYC Model Evaluation Harness',
-    meta: 'EPIC Investment Partners · 2024–',
-    text: ' benchmarked 6 LLMs via OpenRouter against a 50-document golden extraction dataset, 100+ fields per document, to select the production extraction model.',
-    stamps: [{ tone: 'delivered', label: 'Delivered' }],
-  },
-  {
-    name: 'KYC processing at scale',
-    meta: 'EPIC Investment Partners · 2024–',
-    text: ' Google Document AI across 12 document types took capacity from 30 to 300+ forms/day with no added headcount. Clean-pass runs 90%+ on UK English-language documents, ~70% on German/French/Swiss.',
     stamps: [{ tone: 'delivered', label: 'Delivered' }],
   },
   {
@@ -660,7 +685,7 @@ const SCOPE = [
   {
     key: 'Team',
     value:
-      'Leads a 12-person cross-functional squad and sits above it in the hierarchy. 2 of the 12 are direct reports. Project teams run 2–3 engineers, 1 designer, 1 QA; product, delivery and architecture are mine.',
+      'Leads a 12-person cross-functional squad. 2 direct reports.',
   },
   {
     key: 'P&L',
@@ -687,9 +712,9 @@ const ESSAY = [
   'So we shipped a rule-based tracker with a human in the loop, and an interface that makes the enquiry arrive complete. Resolution went from an average of three days to one or two. None of it came from a model.',
   'The part worth taking from that is not the number. It is what the alternative would have cost. To force the model over the line we would have had to build scaffolding around it: extraction heuristics, fallback rules, a correction interface, some notion of confidence, and an eval suite to keep the whole arrangement honest. All of that is real software. It has to be maintained, re-tuned when a vendor deprecates a model, re-evaluated when the data drifts, and explained to every new person who inherits it.',
   'A complicated system solving a simple problem is not a clever outcome. It is a liability with a long tail, and the tail is usually paid by whoever comes after you.',
-  'The third rule follows from the second. Sometimes the correct decision is to wait.',
+  'The third rule follows from the second, and I hold it as a principle rather than a war story: sometimes the correct decision is to wait.',
   'The capability curve is steep at the moment. A workflow that today needs six pieces of custom scaffolding to reach an acceptable pass rate may need one, or none, in a year, when the models handle natively what you are currently propping up. Build the elaborate version now and you own it. You will still own it after the capability lands and quietly makes it redundant.',
-  'Waiting is not the same as doing nothing. In the payroll case it meant shipping the deterministic system that solved the actual problem and leaving the door open. The tracker is not a consolation prize. It is a smaller surface with fewer failure modes, and if the models later get good enough to take more of it, that is a far cleaner thing to extend than a pile of workarounds would have been.',
+  'Waiting is not the same as doing nothing. The deterministic system that solves the problem today is not a consolation prize: it is a smaller surface with fewer failure modes, and if the models later get good enough to take more of it, that is a far cleaner thing to extend than a pile of workarounds would have been. I would rather inherit that than a scaffold built to prop up a capability that arrived a year later anyway.',
   'What this looks like day to day is fairly mundane. Write the pass threshold down before the eval runs, where other people can see it, because a threshold agreed afterwards is a negotiation, and the negotiation tends to end with the model shipping. Run the cheap deterministic path first and treat the model as an escalation rather than a front door. Make human approval an explicit design decision about which claims the system is permitted to assert on its own.',
   'And be willing to say not yet. That is the one that is genuinely hard, because from the outside it can look like a lack of ambition, and it always costs you the demo.',
   'The AI work I am most confident about is not the most sophisticated. It is the part that is still running, unattended, that nobody has had to come back and rescue.',
@@ -812,8 +837,8 @@ function App() {
             Partners.
           </p>
           <p className="standfirst">
-            Employee #8 at a company with no product team. First PM at a fintech
-            with no product function. What follows is the record.
+            Employee #8 at a company that had no product team. First PM at a
+            fintech that had no product function. What follows is the record.
           </p>
         </div>
         <div className="col">
