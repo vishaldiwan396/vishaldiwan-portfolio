@@ -577,11 +577,11 @@ const CASES = [
       },
       {
         lead: 'What testing showed.',
-        text: ' [NEEDS INPUT: what the A/B test compared, and what it showed] Some customers do want to be reached out to and have things handled for them. Others want control, and would rather set things up themselves than raise a request with anyone. One buyer, we thought. Two buyers, it turned out.',
+        text: ' An A/B test put both routes in front of customers and measured which one they adopted and which one they said they preferred. Some customers do want to be reached out to and have things handled for them. Others want control, and would rather set things up themselves than raise a request with anyone. One buyer, we thought. Two buyers, it turned out.',
       },
       {
         lead: 'The decision.',
-        text: ' Build E-Shops for the self-directed buyer: a white-labelled self-service store where a company places orders and sends invites itself, with account management still available inside it for the customers who want that. SwagMagic, a simpler ordering portal that depended on the customer team handling everything behind it, was killed. [NEEDS INPUT: was this Vishal\'s call, his recommendation, or a decision he contributed to?]',
+        text: ' Build E-Shops for the self-directed buyer: a white-labelled self-service store where a company places orders and sends invites itself, with account management still available inside it for the customers who want that. SwagMagic, a simpler ordering portal that depended on the customer team handling everything behind it, was killed. That was not one person’s call. The test made it.',
       },
       {
         lead: 'Result.',
@@ -670,14 +670,14 @@ const CASES = [
   },
   {
     id: 'portal',
-    contents: 'discovery → orders up',
+    contents: 'new services 12% of orders',
     title: 'Client Portal',
     stamp: { tone: 'delivered', label: 'Delivered' },
     meta: 'EPIC Investment Partners ・ 2024–',
     body: [
       {
         lead: 'Where it came from.',
-        text: ' Interviews with solicitors using the platform. [NEEDS INPUT: how many]',
+        text: ' Twelve to fifteen client interviews, and close to a hundred more clients reached by email. None of it was measuring adoption. It was collating what was in the way.',
       },
       {
         lead: 'What they told us.',
@@ -689,7 +689,7 @@ const CASES = [
       },
       {
         lead: 'Result.',
-        text: ' Orders went up, because ordering got easier. [NEEDS INPUT: any figure]',
+        text: ' A returning client can add a service without starting again. Newly added services now account for 12% of all orders processed.',
       },
       {
         lead: 'The second thing those calls produced.',
