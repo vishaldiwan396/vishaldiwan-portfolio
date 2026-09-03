@@ -138,9 +138,9 @@ function McpDiagram() {
   return (
     <figure className="diagram reveal-el">
       <svg
-        viewBox="0 0 620 150"
+        viewBox="0 0 620 596"
         role="img"
-        aria-label="The profile workflow queries a custom MCP server, which reads the Dynamo CRM over REST against an OpenAPI spec, so every figure returns from a source record rather than from the model's memory."
+        aria-label="Two research agents read the Dynamo CRM through a custom MCP server. A collator merges their output into one source of truth, a checker verifies every citation and reviews their flags, and a human approves the content and facts before a presentation agent builds the deck. After QA, a director agent absorbs the feedback and evolves each run."
       >
         <defs>
           <marker
@@ -157,46 +157,89 @@ function McpDiagram() {
         </defs>
 
         <g className="dg-node" data-step="1">
-          <rect x="6" y="16" width="150" height="52" />
-          <text x="81" y="39">Profile workflow</text>
-          <text x="81" y="56" className="dg-sub">drafts the document</text>
+          <rect x="185" y="8" width="250" height="48" />
+          <text x="310" y="30">Dynamo CRM via MCP server</text>
+          <text x="310" y="47" className="dg-sub">system of record</text>
         </g>
 
         <g className="dg-edge" data-step="2">
-          <line x1="156" y1="42" x2="228" y2="42" markerEnd="url(#mcp-arrow)" />
-          <text x="192" y="33" className="dg-edge-label">query</text>
+          <polyline points="310,56 310,74 145,74 145,86" markerEnd="url(#mcp-arrow)" />
+          <polyline points="310,56 310,74 475,74 475,86" markerEnd="url(#mcp-arrow)" />
         </g>
 
-        <g className="dg-node is-good" data-step="3">
-          <rect x="236" y="16" width="150" height="52" />
-          <text x="311" y="39">MCP server</text>
-          <text x="311" y="56" className="dg-sub">internal infra</text>
+        <g className="dg-node" data-step="3">
+          <rect x="20" y="90" width="250" height="52" />
+          <text x="145" y="114">Research agent</text>
+          <text x="145" y="131" className="dg-sub">financial detail</text>
+        </g>
+
+        <g className="dg-node" data-step="3">
+          <rect x="350" y="90" width="250" height="52" />
+          <text x="475" y="114">Research agent</text>
+          <text x="475" y="131" className="dg-sub">people · Amplify</text>
         </g>
 
         <g className="dg-edge" data-step="4">
-          <line x1="386" y1="42" x2="462" y2="42" markerEnd="url(#mcp-arrow)" />
-          <text x="424" y="33" className="dg-edge-label">REST</text>
+          <polyline points="145,142 145,163 310,163 310,178" markerEnd="url(#mcp-arrow)" />
+          <polyline points="475,142 475,163 310,163" />
         </g>
 
         <g className="dg-node" data-step="5">
-          <rect x="470" y="16" width="144" height="52" />
-          <text x="542" y="39">Dynamo CRM</text>
-          <text x="542" y="56" className="dg-sub">system of record</text>
+          <rect x="185" y="182" width="250" height="52" />
+          <text x="310" y="206">Collator</text>
+          <text x="310" y="223" className="dg-sub">one source of truth</text>
         </g>
 
-        <g className="dg-edge is-return" data-step="6">
-          <polyline
-            points="542,68 542,100 81,100 81,74"
-            markerEnd="url(#mcp-arrow)"
-          />
-          <text x="311" y="120" className="dg-edge-label">
-            every figure resolves to a source record
-          </text>
+        <g className="dg-edge" data-step="6">
+          <line x1="310" y1="234" x2="310" y2="260" markerEnd="url(#mcp-arrow)" />
         </g>
+
+        <g className="dg-node" data-step="7">
+          <rect x="185" y="264" width="250" height="52" />
+          <text x="310" y="288">Checker</text>
+          <text x="310" y="305" className="dg-sub">citations · prior flags</text>
+        </g>
+
+        <g className="dg-edge" data-step="8">
+          <line x1="310" y1="316" x2="310" y2="342" markerEnd="url(#mcp-arrow)" />
+        </g>
+
+        <g className="dg-node is-good" data-step="9">
+          <rect x="185" y="346" width="250" height="52" />
+          <text x="310" y="370">Human review</text>
+          <text x="310" y="387" className="dg-sub">content and facts</text>
+        </g>
+
+        <g className="dg-edge" data-step="9">
+          <line x1="310" y1="398" x2="310" y2="424" markerEnd="url(#mcp-arrow)" />
+          <text x="322" y="416" className="dg-edge-label is-side">approves</text>
+        </g>
+
+        <g className="dg-node" data-step="9">
+          <rect x="185" y="428" width="250" height="52" />
+          <text x="310" y="452">Presentation agent</text>
+          <text x="310" y="469" className="dg-sub">builds the deck</text>
+        </g>
+
+        <g className="dg-edge" data-step="9">
+          <line x1="310" y1="480" x2="310" y2="506" markerEnd="url(#mcp-arrow)" />
+          <text x="322" y="498" className="dg-edge-label is-side">after QA</text>
+        </g>
+
+        <g className="dg-node" data-step="9">
+          <rect x="185" y="510" width="250" height="52" />
+          <text x="310" y="534">Director agent</text>
+          <text x="310" y="551" className="dg-sub">evolves on feedback</text>
+        </g>
+
+        <text x="6" y="584" className="dg-note">
+          Every number is verified twice, independently. Unsourced numbers are flagged, not written.
+        </text>
       </svg>
       <figcaption>
-        The workflow reads from the record, not from the model’s memory.
-        Unsourced claims are held for human review rather than drafted.
+        Seven stages, one human gate. Nothing reaches a director’s desk that a
+        person has not approved, and the last agent absorbs their feedback:
+        after roughly thirty runs it carries most of it.
       </figcaption>
     </figure>
   )
@@ -434,6 +477,7 @@ const CASES = [
   {
     title: 'AI Payroll Automation',
     stamp: { tone: 'halted', label: 'Killed' },
+    team: 'EPIC Investment Partners · 2024– · 2–3 engineers, 1 designer, 1 QA · product, delivery and architecture: me',
     figure: true,
     time: {
       label: 'Time to close an enquiry',
@@ -448,7 +492,7 @@ const CASES = [
       },
       {
         lead: 'What the evidence said.',
-        text: ' No API access to the source payroll software, so nothing could be read at source. After a full data-cleanup pass, the eval pass rate capped at 53% against a 70% threshold. The failures were not prompt failures. Recurring hallucinations traced back to the unstructured input itself.',
+        text: ' The eval ran one company’s enquiries over a single month: payroll data for 200+ employees, up to five fields each. The sources were a legacy payroll system, scattered email threads the agent had to scan, and several badly formatted Excel files. No API access, so nothing could be read at source. The 70% pass threshold was fixed in writing before the build started. After a full data-cleanup pass the eval capped at 53%. The failures were not prompt failures: the model was filling gaps because the input frequently did not hold the answer.',
       },
       {
         lead: 'The decision.',
@@ -460,13 +504,14 @@ const CASES = [
       },
       {
         lead: 'What I take from it.',
-        text: ' Automation is often not a question of building something intelligent. It is a question of defining the rules properly and taking the existing system to the point where it stops leaking. The second lesson is cheaper and I learned it the expensive way: set the pass threshold before the eval runs. A threshold agreed afterwards is not a threshold, it is a negotiation, and the negotiation always ends with the model shipping. 53% against 70% is a clear answer. The work is being willing to read it.',
+        text: ' The threshold did its job. It was fixed before the build, so 53% against 70% was a clear answer rather than a negotiation, and the work was being willing to read it. The expensive lesson sat upstream of the model. Every failure traced back to ingestion: no pipeline, and data arriving scattered across a legacy system, mailboxes and malformed spreadsheets. Ingestion is the deciding factor in AI automation. No amount of prompting or model selection compensates for a pipeline that was never built.',
       },
     ],
   },
   {
     title: 'Agentic NAV Reconciliation',
     stamp: { tone: 'delivered', label: 'Delivered' },
+    team: 'EPIC Investment Partners · 2024– · 2–3 engineers, 1 designer, 1 QA · product, delivery and architecture: me',
     diagram: 'nav',
     time: {
       label: 'Reconciliation cycle',
@@ -500,6 +545,7 @@ const CASES = [
   {
     title: 'Multi-Agent Investment Profiles',
     stamp: { tone: 'delivered', label: 'Delivered' },
+    team: 'EPIC Investment Partners · 2024– · 2–3 engineers, 1 designer, 1 QA · product, delivery and architecture: me',
     diagram: 'mcp',
     time: {
       label: 'Time to assemble a short profile',
@@ -510,7 +556,7 @@ const CASES = [
     body: [
       {
         lead: 'The problem.',
-        text: ' Short investment profiles for multi-million dollar pitches took twelve hours to assemble, with the underlying data sitting in Dynamo, a legacy CRM.',
+        text: ' Short investment profiles for multi-million dollar pitches took twelve hours to assemble, with the underlying data sitting in Dynamo, a legacy CRM. The first version ingested that data from a PDF downloaded off the Dynamo site, and hallucinated numbers often enough that the output could not be trusted unread.',
       },
       {
         lead: 'The constraint that shaped everything.',
@@ -518,7 +564,11 @@ const CASES = [
       },
       {
         lead: 'The decision.',
-        text: ' I built a custom Model Context Protocol server on internal infrastructure, integrating Dynamo over REST against an OpenAPI spec, so the workflow reads from the record rather than from the model’s memory. The grounding rule is absolute: every figure resolves to a source record, and unsourced claims are held for human review. Prompt routing and context-window optimisation cut token usage by around 40% without losing output fidelity.',
+        text: ' I replaced the PDF ingestion with a custom Model Context Protocol server on internal infrastructure, integrating Dynamo over REST against an OpenAPI spec, so the workflow reads from the record rather than from the model’s memory. Two rules carry the rest: every number is pulled and verified twice, independently, and any number without a citation behind it is flagged rather than written. Prompt routing and context-window optimisation cut token usage by around 40%.',
+      },
+      {
+        lead: 'The shape of it.',
+        text: ' Two research agents, one for financial detail and one for people, the second wired to Amplify. A collator merges their output into a single source of truth. A checker verifies every citation and reviews the flags the research agents raised. A person then reviews content and facts, and only after that does a presentation agent build the deck. After QA, a director agent takes the directors’ feedback on the finished output; after roughly thirty runs it carries most of it.',
       },
       { lead: 'Result.', text: ' Twelve hours to ninety minutes.' },
       {
@@ -532,36 +582,35 @@ const CASES = [
 const WORK = [
   {
     name: 'EPIC AI Learning Programme & Live Skills Library',
+    meta: 'EPIC Investment Partners · 2024–',
     text: ' the firm’s AI governance and enablement programme: an eight-module curriculum taking teams from prompting through connectors, research and custom skill-building, alongside a dossier of the twelve AI skills running in production. I defined the operating rule that runs through all of it — AI drafts, a person reviews and approves, and nothing is final until they do.',
     links: [
-      {
-        href: 'https://epicipprojects.com/epic-ai-guide/index.html',
-        label: 'Programme',
-      },
-      {
-        href: 'https://epicipprojects.com/epic-ai-guide/skills-library.html',
-        label: 'Skills library',
-      },
+      { href: 'https://epicipprojects.com/epic-ai-guide/index.html', label: 'Programme' },
+      { href: 'https://epicipprojects.com/epic-ai-guide/skills-library.html', label: 'Skills library' },
     ],
     stamps: [{ tone: 'delivered', label: 'Delivered' }],
   },
   {
     name: 'KYC Model Evaluation Harness',
+    meta: 'EPIC Investment Partners · 2024–',
     text: ' benchmarked 6 LLMs via OpenRouter against a 50-document golden extraction dataset, 100+ fields per document, to select the production extraction model.',
     stamps: [{ tone: 'delivered', label: 'Delivered' }],
   },
   {
     name: 'KYC processing at scale',
+    meta: 'EPIC Investment Partners · 2024–',
     text: ' Google Document AI across 12 document types took capacity from 30 to 300+ forms/day with no added headcount. Clean-pass runs 90%+ on UK English-language documents, ~70% on German/French/Swiss.',
     stamps: [{ tone: 'delivered', label: 'Delivered' }],
   },
   {
     name: 'GenAI KIIDs/PRIIPs generator',
+    meta: 'EPIC Investment Partners · 2024–',
     text: ' UCITS compliance drafting, 2 hours to 30 minutes per document, across 50+ fund documents.',
     stamps: [{ tone: 'delivered', label: 'Delivered' }],
   },
   {
     name: 'Whittard Analytics Dashboard',
+    meta: 'EPIC portfolio company · 2024–',
     text: ' consolidated Island Pacific retail data, WSSI and warehouse Excel into one Databricks source of truth with a LangChain NL-to-SQL layer. Replaced per-team spreadsheets across procurement, warehouse, stores, shipment.',
     stamps: [
       { tone: 'delivered', label: 'Delivered' },
@@ -570,17 +619,38 @@ const WORK = [
   },
   {
     name: 'Monolith to microservices',
+    meta: 'EPIC Investment Partners · 2024–',
     text: ' legacy PHP to event-driven Node.js, phased zero-downtime. 3× API concurrency, 50 to 150+ concurrent requests.',
     stamps: [{ tone: 'halted', label: 'In progress' }],
   },
   {
-    name: 'SnackMagic E-Shops / Swag Catalog / Personalization Engine',
-    text: ' 0-to-1 launches, 2024: $600K and $300K incremental monthly revenue, AOV $45 to $55 validated over an 8-week A/B test at 95% confidence.',
+    name: 'AppSec and third-party audit',
+    meta: 'EPIC Investment Partners · 2024–',
+    text: ' established the firm’s first AppSec process; initiated and drove a third-party VAPT and SOC 2 / GDPR review to completion. Critical vulnerabilities 12 to zero over six months.',
     stamps: [{ tone: 'delivered', label: 'Delivered' }],
   },
   {
-    name: 'AppSec and third-party audit',
-    text: ' established the firm’s first AppSec process; initiated and drove a third-party VAPT and SOC 2 / GDPR review to completion. Critical vulnerabilities 12 to zero over six months.',
+    name: 'E-Shops',
+    meta: 'SnackMagic / Stadium · 2020–24',
+    text: ' white-labelled self-service enterprise snack stores, launched 0-to-1. $600K incremental monthly revenue within six months (2024), with 30% adoption among top-tier enterprise accounts.',
+    stamps: [{ tone: 'delivered', label: 'Delivered' }],
+  },
+  {
+    name: 'Swag Catalog',
+    meta: 'SnackMagic / Stadium · 2020–24',
+    text: ' self-service swag configurator and bulk ordering portal: a 3,000+ SKU catalogue, a live logo mockup-and-preview tool, and a warehouse intake flow for customers shipping their own inventory. Delivered to scope and handed to BAU.',
+    stamps: [{ tone: 'delivered', label: 'Delivered' }],
+  },
+  {
+    name: 'Swag Locker',
+    meta: 'SnackMagic / Stadium · 2020–24',
+    text: ' virtual inventory letting recipients store and redeem corporate gifts on demand. 20% lift in engagement and a $300K+ monthly revenue stream (2024).',
+    stamps: [{ tone: 'delivered', label: 'Delivered' }],
+  },
+  {
+    name: 'AI Personalization Engine',
+    meta: 'SnackMagic / Stadium · 2020–24',
+    text: ' collaborative-filtering recommender built from scratch in 12 weeks. AOV $45 to $55, a 22% lift, and $300K incremental monthly revenue (2024) — validated over an 8-week A/B test, 15,000 users per cohort, at 95% confidence.',
     stamps: [{ tone: 'delivered', label: 'Delivered' }],
   },
 ]
@@ -589,12 +659,13 @@ const SCOPE = [
   { key: 'Reporting', value: 'Direct to UK Managing Director. CEO skip-level.' },
   {
     key: 'Team',
-    value: '2 direct reports. Leads a 12-person cross-functional squad.',
+    value:
+      'Leads a 12-person cross-functional squad and sits above it in the hierarchy. 2 of the 12 are direct reports. Project teams run 2–3 engineers, 1 designer, 1 QA; product, delivery and architecture are mine.',
   },
   {
     key: 'P&L',
     value:
-      'Legalads, £8M ARR, 1,000+ solicitor firm customers. Mandate to £10M over 18 months.',
+      'Legalads, an EPIC-acquired solicitor SaaS subsidiary. £8M ARR, 1,000+ solicitor firm customers. Mandate to £10M over 18 months.',
     stamp: { tone: 'halted', label: 'In progress' },
   },
   {
@@ -850,6 +921,7 @@ function App() {
                 <h3>{c.title}</h3>
                 <Stamp tone={c.stamp.tone}>{c.stamp.label}</Stamp>
               </div>
+              {c.team ? <p className="case-team">{c.team}</p> : null}
               {c.figure ? <ThresholdFigure /> : null}
               {c.diagram === 'nav' ? <NavDiagram /> : null}
               {c.diagram === 'mcp' ? <McpDiagram /> : null}
@@ -894,7 +966,7 @@ function App() {
               <li className="work-item" key={w.name}>
                 <p className="work-text">
                   <b>{w.name}</b>
-                  {' —'}
+                  {w.meta ? <span className="work-meta">{w.meta}</span> : null}
                   {w.text}
                   {w.links ? (
                     <span className="work-links">
