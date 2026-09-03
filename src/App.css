@@ -936,29 +936,49 @@
 /* ============================================================
    Artwork layer — fixed, behind the column, one at a time
    ============================================================ */
-.artlayer {
-  position: fixed;
-  inset: 0;
+/* ============================================================
+   Scattered motifs
+   ============================================================ */
+.motif {
+  position: absolute;
+  background-repeat: no-repeat;
+  opacity: var(--o, 0.24);
   pointer-events: none;
+  user-select: none;
   z-index: 0;
   will-change: transform;
+  transform: rotate(var(--tilt, 0deg));
 }
 
-.art {
-  position: absolute;
-  inset: -12% -6%;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
-  opacity: 0;
-  transition: opacity 0.4s ease;
+/* Anchored just outside the reading column, in the margin the text leaves
+   empty. Never over the text itself. */
+.motif[data-side='left'] {
+  right: calc(50% + (var(--col) / 2) + var(--pad, 0px));
 }
 
-.art[data-on='yes'] {
-  opacity: var(--peak);
+.motif[data-side='right'] {
+  left: calc(50% + (var(--col) / 2) + var(--pad, 0px));
 }
 
-.page > *:not(.artlayer) {
+.motif[data-mode='spin'] {
+  animation: motif-spin var(--dur, 120s) linear infinite;
+}
+
+@keyframes motif-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* The margins run out before the artwork does. Below this width the page is
+   a single column and the motifs would land on the text. */
+@media (max-width: 1260px) {
+  .motif {
+    display: none;
+  }
+}
+
+.page > * {
   position: relative;
   z-index: 1;
 }
@@ -1041,10 +1061,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .artlayer {
-    transform: none !important;
-  }
-  .art {
-    transition: none;
+  .motif {
+    animation: none !important;
+    transform: rotate(var(--tilt, 0deg)) !important;
   }
 }
