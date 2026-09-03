@@ -937,66 +937,84 @@
    Artwork layer — fixed, behind the column, one at a time
    ============================================================ */
 /* ============================================================
-   Scattered motifs
+   Artwork layer
    ============================================================ */
 .motif {
   position: absolute;
+  left: 50%;
+  /* --x is the piece's centre, offset from the centre of the page. Pieces
+     are allowed to sit behind the column and to run off the page edge. */
+  margin-left: calc((var(--x) - var(--size) / 2) * var(--scale, 1));
   width: calc(var(--size) * var(--scale, 1));
   height: calc(var(--size) * var(--scale, 1));
-  background-repeat: no-repeat;
-  opacity: var(--o, 0.24);
+  opacity: var(--o, 0.18);
   pointer-events: none;
   user-select: none;
   z-index: 0;
   will-change: transform;
   transform: rotate(var(--tilt, 0deg));
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
 }
 
-/* Anchored just outside the reading column, in the margin the text leaves
-   empty. Never over the text itself. */
-.motif[data-side='left'] {
-  right: calc(50% + (var(--col) / 2) + (var(--pad, 0px) * var(--scale, 1)));
-}
-
-.motif[data-side='right'] {
-  left: calc(50% + (var(--col) / 2) + (var(--pad, 0px) * var(--scale, 1)));
+/* Five of the six are too pale to survive on this ground, so they are used
+   as masks and given a colour that means something where they sit: amber
+   for what was stopped, green for what runs, slate for the arguments about
+   evidence, ink for the essay. */
+.motif[data-tint='yes'] {
+  background-color: var(--tint);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
 }
 
 .motif[data-mode='spin'] {
-  animation: motif-spin var(--dur, 120s) linear infinite;
+  animation: motif-spin var(--dur, 220s) linear infinite;
+}
+
+.motif[data-mode='breathe'] {
+  animation: motif-breathe var(--dur, 70s) ease-in-out infinite alternate;
 }
 
 @keyframes motif-spin {
+  from {
+    transform: rotate(var(--tilt, 0deg));
+  }
   to {
-    transform: rotate(360deg);
+    transform: rotate(calc(var(--tilt, 0deg) + 360deg));
   }
 }
 
-/* The margin narrows before it disappears, so the artwork shrinks with it
-   rather than vanishing at one width. A 1440px laptop at 125% scaling is
-   1152 CSS pixels, which is squarely inside this range. Below 820px the
-   margin is gone and so is the artwork. */
-@media (max-width: 1300px) {
+@keyframes motif-breathe {
+  from {
+    transform: translate3d(0, 0, 0) rotate(var(--tilt, 0deg));
+  }
+  to {
+    transform: translate3d(0, -30px, 0) rotate(calc(var(--tilt, 0deg) + 3deg));
+  }
+}
+
+/* The artwork sits behind the text now, so it no longer depends on a margin
+   existing and stays on the page all the way down to a phone. */
+@media (max-width: 1200px) {
   .motif {
-    --scale: 0.82;
+    --scale: 0.84;
   }
 }
 
-@media (max-width: 1120px) {
+@media (max-width: 900px) {
   .motif {
     --scale: 0.66;
   }
 }
 
-@media (max-width: 980px) {
+@media (max-width: 640px) {
   .motif {
-    --scale: 0.52;
-  }
-}
-
-@media (max-width: 820px) {
-  .motif {
-    display: none;
+    --scale: 0.5;
   }
 }
 

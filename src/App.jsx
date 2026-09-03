@@ -457,11 +457,20 @@ const PRINCIPLES = [
   },
 ]
 
-/* Scattered motifs. The delivered artworks are used small and in the
-   margins rather than washed across the page: each one sits in the
-   whitespace beside a section. 'drift' moves against the scroll, 'spin'
-   turns slowly in place. Both stop under prefers-reduced-motion, and all
-   of them are hidden below 1180px, where there is no margin left to fill. */
+/* The artwork layer.
+
+   Five of the six pieces are drawn in very pale ink and disappear on this
+   ground, so those are used as masks and tinted: the artwork keeps its
+   shape and takes a colour that means something where it sits. The rosette
+   is the one piece drawn in full colour, so it is left alone.
+
+   Placement is narrative rather than even. Each piece has one home — the
+   section its shape argues for — and only the braid, which is connective
+   tissue, repeats. The rosette opens the page and closes it.
+
+   Three motions: spin turns forever, breathe drifts and returns, drift is
+   scroll-linked and stops when the reader stops. All three stop under
+   prefers-reduced-motion. */
 const ROSETTE = './art/01-rosette-masthead.svg'
 const INTERFERENCE = './art/02-interference-basis.svg'
 const SEAL = './art/03-broken-seal-killed.svg'
@@ -469,50 +478,49 @@ const BRAID = './art/04-braid-divider.svg'
 const TRIBUTARIES = './art/05-tributaries-choosing.svg'
 const CONTOURS = './art/06-contours-essay.svg'
 
+const TINT = {
+  [SEAL]: 'var(--halted)',
+  [BRAID]: 'var(--delivered)',
+  [INTERFERENCE]: 'var(--slate)',
+  [TRIBUTARIES]: 'var(--soft)',
+  [CONTOURS]: 'var(--ink)',
+}
+
 function Motif({
   src,
-  side,
+  x,
   top,
   size,
-  mode = 'drift',
-  rate = 0.05,
+  mode = 'spin',
+  dur = 220,
   tilt = 0,
-  dur = 120,
-  opacity = 0.24,
+  rate = 0.04,
+  opacity = 0.18,
 }) {
-  // Three of the artworks are single closed figures and read whole at this
-  // size. The other three are fields: shown whole their strokes fall below a
-  // pixel, so those are magnified crops instead — a fragment at close to its
-  // native line weight, positioned from the placement so the same artwork
-  // never shows the same part twice.
-  const seed = (Math.round(top) * 31 + size * 7) % 97
-  const whole = src === ROSETTE || src === TRIBUTARIES || src === SEAL
-  const zoom = 260 + (seed % 4) * 45
-
+  const tint = TINT[src]
+  const style = {
+    top,
+    '--x': `${x}px`,
+    '--size': `${size}px`,
+    '--dur': `${dur}s`,
+    '--tilt': `${tilt}deg`,
+    '--rate': rate,
+    '--o': opacity,
+  }
+  if (tint) {
+    style['--tint'] = tint
+    style.WebkitMaskImage = `url('${src}')`
+    style.maskImage = `url('${src}')`
+  } else {
+    style.backgroundImage = `url('${src}')`
+  }
   return (
     <div
       className="motif"
       aria-hidden="true"
-      data-side={side}
       data-mode={mode}
-      style={{
-        top,
-        // Size and clearance are handed to CSS rather than set outright, so a
-        // narrower window can scale them down instead of losing the artwork.
-        '--size': `${size}px`,
-        backgroundImage: `url('${src}')`,
-        backgroundSize: whole ? 'contain' : `${zoom}% auto`,
-        backgroundPosition: whole
-          ? 'center'
-          : `${24 + (seed % 7) * 8}% ${22 + ((seed >> 2) % 7) * 8}%`,
-        // A rotating square needs its diagonal, not its width, of clearance
-        // or its corners swing back over the text.
-        '--pad': `${Math.round(size * (mode === 'spin' ? 0.21 : Math.abs(tilt) / 90 + 0.02))}px`,
-        '--rate': rate,
-        '--tilt': `${tilt}deg`,
-        '--dur': `${dur}s`,
-        '--o': opacity,
-      }}
+      data-tint={tint ? 'yes' : 'no'}
+      style={style}
     />
   )
 }
@@ -964,8 +972,7 @@ function App() {
       </div>
 
       <header className="masthead">
-        <Motif src={BRAID} side="left" top={620} size={106} rate={0.05} tilt={-14} opacity={0.62} />
-        <Motif src={ROSETTE} side="right" top={40} size={172} mode="spin" dur={150} opacity={0.61} />
+        <Motif src={ROSETTE} x={430} top={-40} size={700} mode="spin" dur={260} opacity={0.26} />
         <div className="col">
           <p className="greeting">Hello — I’m</p>
           <h1>Vishal Diwan</h1>
@@ -993,8 +1000,7 @@ function App() {
       </div>
 
       <section className="section reveal-el">
-        <Motif src={SEAL} side="right" top={370} size={98} mode="spin" dur={195} opacity={0.54} />
-        <Motif src={BRAID} side="left" top={30} size={150} rate={0.055} tilt={-9} opacity={0.62} />
+        <Motif src={BRAID} x={-260} top={60} size={1500} mode="breathe" dur={64} tilt={-3} opacity={0.5} />
         <div className="col prose">
           <p>
             In 2020 I joined a New York lunch-delivery startup as employee number
@@ -1023,7 +1029,6 @@ function App() {
       </section>
 
       <section className="section reveal-el" id="contents">
-        <Motif src={CONTOURS} side="right" top={54} size={112} rate={0.045} tilt={6} opacity={0.54} />
         <div className="col">
           <span className="section-label">Contents</span>
           <ul className="contents">
@@ -1049,8 +1054,7 @@ function App() {
       </div>
 
       <section className="section reveal-el">
-        <Motif src={ROSETTE} side="left" top={470} size={100} rate={0.055} tilt={-5} opacity={0.61} />
-        <Motif src={TRIBUTARIES} side="right" top={120} size={128} mode="spin" dur={185} opacity={0.61} />
+        <Motif src={CONTOURS} x={-180} top={-40} size={1150} mode="spin" dur={340} opacity={0.5} />
         <div className="col">
           <span className="section-label">How I work</span>
           <ul className="principles">
@@ -1072,8 +1076,7 @@ function App() {
       </div>
 
       <section className="section reveal-el" id="chosen">
-        <Motif src={BRAID} side="right" top={760} size={120} mode="spin" dur={170} opacity={0.62} />
-        <Motif src={INTERFERENCE} side="left" top={70} size={168} rate={0.06} tilt={7} opacity={0.62} />
+        <Motif src={TRIBUTARIES} x={60} top={20} size={1450} mode="breathe" dur={78} tilt={2} opacity={0.8} />
         <div className="col prose">
           <span className="section-label">How the work got chosen</span>
           <p>
@@ -1126,7 +1129,7 @@ function App() {
       </section>
 
       <section className="section reveal-el">
-        <Motif src={BRAID} side="right" top={54} size={140} rate={0.045} tilt={-13} opacity={0.62} />
+        <Motif src={INTERFERENCE} x={200} top={-30} size={1250} mode="breathe" dur={92} tilt={-2} opacity={0.36} />
         <div className="col">
           <span className="section-label">Basis</span>
           <div className="basis">
@@ -1157,16 +1160,14 @@ function App() {
       </section>
 
       <section className="section">
-        <Motif src={SEAL} side="left" top={210} size={150} mode="spin" dur={130} opacity={0.58} />
-        <Motif src={TRIBUTARIES} side="right" top={1120} size={104} rate={0.05} tilt={9} opacity={0.62} />
-        <Motif src={BRAID} side="left" top={2050} size={132} rate={0.06} tilt={-6} opacity={0.62} />
-        <Motif src={ROSETTE} side="right" top={2960} size={96} mode="spin" dur={175} opacity={0.54} />
-        <Motif src={INTERFERENCE} side="left" top={3820} size={144} rate={0.045} tilt={5} opacity={0.61} />
-        <Motif src={CONTOURS} side="right" top={4720} size={158} rate={0.055} tilt={-4} opacity={0.58} />
-        <Motif src={SEAL} side="left" top={5600} size={92} mode="spin" dur={210} opacity={0.61} />
-        <Motif src={BRAID} side="right" top={6420} size={126} rate={0.05} tilt={11} opacity={0.62} />
-        <Motif src={TRIBUTARIES} side="left" top={7280} size={136} mode="spin" dur={155} opacity={0.58} />
-        <Motif src={ROSETTE} side="right" top={8180} size={118} rate={0.06} tilt={-8} opacity={0.62} />
+        <Motif src={TRIBUTARIES} x={220} top={8000} size={1300} mode="drift" rate={0.045} tilt={-2} opacity={0.62} />
+        <Motif src={SEAL} x={240} top={5700} size={1000} mode="spin" dur={250} opacity={0.5} />
+        <Motif src={INTERFERENCE} x={-260} top={3600} size={1200} mode="breathe" dur={88} tilt={3} opacity={0.34} />
+        <Motif src={CONTOURS} x={240} top={1500} size={1150} mode="spin" dur={330} opacity={0.42} />
+        <Motif src={BRAID} x={-240} top={6900} size={1400} mode="breathe" dur={86} tilt={-5} opacity={0.45} />
+        <Motif src={TRIBUTARIES} x={-280} top={4600} size={1250} mode="spin" dur={300} opacity={0.7} />
+        <Motif src={BRAID} x={280} top={2600} size={1450} mode="drift" rate={0.05} tilt={4} opacity={0.45} />
+        <Motif src={SEAL} x={-200} top={280} size={1050} mode="spin" dur={210} opacity={0.7} />
         <div className="col">
           <span className="section-label">Case studies</span>
         </div>
@@ -1230,8 +1231,7 @@ function App() {
       </div>
 
       <section className="section reveal-el">
-        <Motif src={TRIBUTARIES} side="left" top={600} size={128} rate={0.05} tilt={8} opacity={0.61} />
-        <Motif src={ROSETTE} side="right" top={90} size={124} rate={0.05} tilt={5} opacity={0.62} />
+        <Motif src={INTERFERENCE} x={260} top={60} size={1000} mode="drift" rate={0.04} tilt={3} opacity={0.42} />
         <div className="col">
           <span className="section-label">Selected work</span>
           <ul className="work-list">
@@ -1271,7 +1271,7 @@ function App() {
       </section>
 
       <section className="section reveal-el">
-        <Motif src={SEAL} side="left" top={44} size={112} mode="spin" dur={200} opacity={0.54} />
+        <Motif src={SEAL} x={-260} top={0} size={880} mode="spin" dur={280} opacity={0.6} />
         <div className="col">
           <span className="section-label">Scope</span>
           <div className="scope">
@@ -1295,10 +1295,9 @@ function App() {
       </div>
 
       <section className="section reveal-el essay">
-        <Motif src={CONTOURS} side="right" top={2280} size={126} rate={0.06} tilt={12} opacity={0.62} />
-        <Motif src={INTERFERENCE} side="right" top={1520} size={134} mode="spin" dur={190} opacity={0.54} />
-        <Motif src={SEAL} side="left" top={690} size={110} rate={0.05} tilt={-7} opacity={0.61} />
-        <Motif src={CONTOURS} side="right" top={64} size={175} rate={0.055} tilt={4} opacity={0.62} />
+        <Motif src={INTERFERENCE} x={-230} top={1050} size={1050} mode="spin" dur={320} opacity={0.32} />
+        <Motif src={BRAID} x={-180} top={1900} size={1300} mode="drift" rate={0.055} tilt={6} opacity={0.45} />
+        <Motif src={CONTOURS} x={80} top={60} size={1350} mode="spin" dur={300} opacity={0.5} />
         <div className="col">
           <span className="section-label">Writing</span>
           <h3>Earned Autonomy</h3>
@@ -1332,7 +1331,7 @@ function App() {
       </div>
 
       <section className="contact reveal-el">
-        <Motif src={BRAID} side="left" top={26} size={122} mode="spin" dur={165} opacity={0.61} />
+        <Motif src={ROSETTE} x={-280} top={-40} size={520} mode="spin" dur={200} opacity={0.24} />
         <div className="col">
           <span className="section-label">Contact</span>
           <ul className="contact-list">

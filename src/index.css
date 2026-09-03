@@ -8,6 +8,7 @@
 
   /* Semantic status colours. Never decorative, never hover states. */
   --delivered: #3f6e5a;
+  --slate: #5c6570;
   --halted: #8a6220;
 
   /* Type */
