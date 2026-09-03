@@ -497,8 +497,9 @@ function Motif({
       data-mode={mode}
       style={{
         top,
-        width: size,
-        height: size,
+        // Size and clearance are handed to CSS rather than set outright, so a
+        // narrower window can scale them down instead of losing the artwork.
+        '--size': `${size}px`,
         backgroundImage: `url('${src}')`,
         backgroundSize: whole ? 'contain' : `${zoom}% auto`,
         backgroundPosition: whole
