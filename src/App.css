@@ -932,3 +932,119 @@
     gap: 14px;
   }
 }
+
+/* ============================================================
+   Artwork layer — fixed, behind the column, one at a time
+   ============================================================ */
+.artlayer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  will-change: transform;
+}
+
+.art {
+  position: absolute;
+  inset: -12% -6%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.art[data-on='yes'] {
+  opacity: var(--peak);
+}
+
+.page > *:not(.artlayer) {
+  position: relative;
+  z-index: 1;
+}
+
+/* Running header */
+.runhead {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  padding: 0 22px;
+  background: var(--ground);
+  border-bottom: 1px solid var(--rule-faint);
+  z-index: 9;
+}
+
+.runhead a {
+  font: 500 11px/1 var(--mono);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--soft);
+  text-decoration: none;
+}
+
+/* Contents block */
+.contents {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--rule-faint);
+}
+
+.contents a {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: baseline;
+  gap: 10px 20px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--rule-faint);
+  text-decoration: none;
+}
+
+.contents-name {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 21px;
+  color: var(--ink);
+}
+
+.contents-result {
+  font: 400 12px var(--mono);
+  color: var(--soft);
+}
+
+.to-contents {
+  display: inline-block;
+  margin-top: 26px;
+  font: 400 11px var(--mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--soft);
+  text-decoration: none;
+}
+
+.case-stamps {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+@media (max-width: 600px) {
+  .contents a {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .artlayer {
+    transform: none !important;
+  }
+  .art {
+    transition: none;
+  }
+}

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import './App.css'
 
 const CURVES = [
@@ -444,26 +444,48 @@ function Glyph({ seed }) {
 
 const PRINCIPLES = [
   {
-    line: 'Not everything needs AI.',
-    note: 'Most workflows that look like AI problems are not. Saying so early is cheaper than proving it late.',
+    line: 'How much autonomy a system gets.',
+    note: 'Set per system, against what that system is allowed to get wrong. Reconciliation clears 90% of mismatches unattended. Investment profiles began with a person on every figure. Same year, opposite settings, both deliberate.',
   },
   {
-    line: 'The cheapest correct answer runs first.',
-    note: 'Deterministic rules take the cases that were never ambiguous. The model is an escalation path.',
+    line: 'When that setting moves.',
+    note: 'Autonomy gets extended when a system earns it. On the profile pipeline a manager checked each file before it reached a director. The final agent absorbed directors’ feedback across runs until the changes they asked for dropped sharply, and the manager check came out. The tier went away because it had stopped adding anything.',
   },
   {
-    line: 'AI drafts. A person approves.',
-    note: 'The rule I wrote for the firm, and the one that sits at the top of every module and every skill in production.',
-  },
-  {
-    line: 'Write the threshold down before the eval runs.',
-    note: 'A number agreed afterwards is a negotiation, and the negotiation ends with the model shipping.',
-  },
-  {
-    line: 'The best system is the one nobody has to rescue.',
-    note: 'Scaffolding is real software. Someone inherits it, re-tunes it, and explains it long after you have moved on.',
+    line: 'Who else gets to make these calls.',
+    note: 'Twelve AI skills run in production and I am not the bottleneck on any of them. An eight-module curriculum takes teams from prompting through connectors, research and building their own skills, against a live dossier of what is running. The people closest to a workflow should decide how much of it a model holds.',
   },
 ]
+
+/* Six delivered artworks, fixed behind the column. One visible at a time,
+   cross-faded on section boundaries. Motion is scroll-linked only: nothing
+   runs on a timer, so a reader who stops scrolling stops the movement. */
+const ART = [
+  { key: 'masthead', src: './art/01-rosette-masthead.svg', peak: 0.15 },
+  { key: 'payroll', src: './art/03-broken-seal-killed.svg', peak: 0.1 },
+  { key: 'chosen', src: './art/05-tributaries-choosing.svg', peak: 0.1 },
+  { key: 'basis', src: './art/02-interference-basis.svg', peak: 0.1 },
+  { key: 'writing', src: './art/06-contours-essay.svg', peak: 0.09 },
+]
+
+function ArtLayer({ active }) {
+  return (
+    <div className="artlayer" aria-hidden="true">
+      {ART.map((a) => (
+        <div
+          key={a.key}
+          className="art"
+          data-art={a.key}
+          data-on={active === a.key ? 'yes' : 'no'}
+          style={{
+            backgroundImage: `url('${a.src}')`,
+            '--peak': a.peak,
+          }}
+        />
+      ))}
+    </div>
+  )
+}
 
 function Stamp({ tone, children }) {
   return (
@@ -475,6 +497,8 @@ function Stamp({ tone, children }) {
 
 const CASES = [
   {
+    id: 'payroll',
+    contents: '3 days → 1–2',
     title: 'AI Payroll Automation',
     stamp: { tone: 'halted', label: 'Killed' },
     team: 'EPIC Investment Partners · 2024– · 2–3 engineers, 1 designer, 1 QA',
@@ -509,6 +533,76 @@ const CASES = [
     ],
   },
   {
+    id: 'eshops',
+    contents: 'self-serve, 30% adoption',
+    title: 'E-Shops / SwagMagic',
+    stamps: [
+      { tone: 'delivered', label: 'E-Shops delivered' },
+      { tone: 'halted', label: 'SwagMagic killed' },
+    ],
+    meta: 'SnackMagic / Stadium ・ 2020–24',
+    body: [
+      {
+        lead: 'The assumption.',
+        text: ' Corporate gifting was an account-managed business. A customer told us what they wanted and a person on our side made it happen: orders by email, fulfilment by phone, a human in every loop.',
+      },
+      {
+        lead: 'What testing showed.',
+        text: ' [NEEDS INPUT: what the A/B test compared, and what it showed] Some customers do want to be reached out to and have things handled for them. Others want control, and would rather set things up themselves than raise a request with anyone. One buyer, we thought. Two buyers, it turned out.',
+      },
+      {
+        lead: 'The decision.',
+        text: ' Build E-Shops for the self-directed buyer: a white-labelled self-service store where a company places orders and sends invites itself, with account management still available inside it for the customers who want that. SwagMagic, a simpler ordering portal that depended on the customer team handling everything behind it, was killed. [NEEDS INPUT: was this Vishal\'s call, his recommendation, or a decision he contributed to?]',
+      },
+      {
+        lead: 'Result.',
+        text: ' 30% adoption among top-tier enterprise accounts, and $600K incremental monthly revenue within six months (2024).',
+      },
+      {
+        lead: 'What I take from it.',
+        text: ' We had not built the wrong product. We had assumed one customer where there were two, and the test was cheaper than the assumption.',
+      },
+    ],
+  },
+  {
+    id: 'nav',
+    contents: '90% unattended',
+    title: 'Agentic NAV Reconciliation',
+    stamp: { tone: 'delivered', label: 'Delivered' },
+    team: 'EPIC Investment Partners · 2024– · 2–3 engineers, 1 designer, 1 QA',
+    diagram: 'nav',
+    time: {
+      label: 'Reconciliation cycle',
+      beforeLabel: '4 hours',
+      afterLabel: '30 minutes',
+      ratio: 0.125,
+    },
+    body: [
+      {
+        lead: 'The problem.',
+        text: ' NAV reconciliation ran across four source data feeds and took four hours a cycle. A mistake here is not a rounding error; it carries penalty exposure into the hundreds of thousands of pounds.',
+      },
+      {
+        lead: 'The option I rejected.',
+        text: ' Put an LLM across every mismatch. Most NAV mismatches are deterministic. Sending them through a probabilistic system costs more, runs slower, and produces a worse audit trail for the cases that were never ambiguous.',
+      },
+      {
+        lead: 'The decision.',
+        text: ' Hybrid, with the cheap path first. Structured rule lookups resolve standard mismatches. Only on rule failure does an investigation agent activate: semantic reasoning over Pinecone vector embeddings, determining the likely cause of the mismatch. It flags findings for human review. It does not auto-resolve.',
+      },
+      {
+        lead: 'Result.',
+        text: ' Ninety percent of mismatches clear unattended. The remaining ten reach a person with a likely cause already attached, and 70% of those are approved as they stand. Cycle time went from four hours to thirty minutes. Output quality spot-checked via LLM-as-judge review. These are operational figures from running the system, not a formal audited evaluation.',
+      },
+      {
+        lead: 'What I take from it.',
+        text: ' Autonomy is cheapest where the answer was never ambiguous. Rules take those cases, the model takes the ones needing judgment, and a person sees only what neither settled.',
+      },
+    ],
+  },
+  {
+    id: 'kyc',
+    contents: '30/day → 300+ capacity',
     title: 'KYC Extraction: Choosing the Model',
     stamp: { tone: 'delivered', label: 'Delivered' },
     team: 'EPIC Investment Partners \u00b7 2024\u2013 \u00b7 2\u20133 engineers, 1 designer, 1 QA',
@@ -537,7 +631,7 @@ const CASES = [
       },
       {
         lead: 'Result.',
-        text: ' In production across 12 document types. Capacity went from 30 to 300+ forms a day with no added headcount, and manual entry fell from fifteen minutes a form to under three. Clean-pass runs 90%+ on UK English-language documents and around 70% on German, French and Swiss ones; the rest are handled by hand.',
+        text: ' In production across 12 document types. The five-person team was clearing about thirty forms a day; capacity is now over three hundred a day with no added headcount, and actual run-rate sits at seven to eight hundred a week against real demand. Manual entry per form fell from fifteen minutes to under three. Clean-pass runs 90%+ on UK English-language documents and around 70% on German, French and Swiss ones; the rest are handled by hand.',
       },
       {
         lead: 'What I take from it.',
@@ -546,40 +640,41 @@ const CASES = [
     ],
   },
   {
-    title: 'Agentic NAV Reconciliation',
+    id: 'portal',
+    contents: 'discovery → orders up',
+    title: 'Client Portal',
     stamp: { tone: 'delivered', label: 'Delivered' },
-    team: 'EPIC Investment Partners · 2024– · 2–3 engineers, 1 designer, 1 QA',
-    diagram: 'nav',
-    time: {
-      label: 'Reconciliation cycle',
-      beforeLabel: '4 hours',
-      afterLabel: '30 minutes',
-      ratio: 0.125,
-    },
+    meta: 'EPIC Investment Partners ・ 2024–',
     body: [
       {
-        lead: 'The problem.',
-        text: ' NAV reconciliation ran across four source data feeds and took four hours a cycle.',
+        lead: 'Where it came from.',
+        text: ' Interviews with solicitors using the platform. [NEEDS INPUT: how many]',
       },
       {
-        lead: 'The option I rejected.',
-        text: ' Put an LLM across every mismatch. Most NAV mismatches are deterministic. Sending them through a probabilistic system costs more, runs slower, and produces a worse audit trail for the cases that were never ambiguous.',
+        lead: 'What they told us.',
+        text: ' Returning clients were filling out a whole new form to add a service they had already given us most of the information for. It was not a complaint about the product. It was the reason they were not ordering more.',
       },
       {
         lead: 'The decision.',
-        text: ' Hybrid, with the cheap path first. Structured rule lookups resolve standard mismatches. Only on rule failure does an investigation agent activate: semantic reasoning over Pinecone vector embeddings, determining the likely cause of the mismatch. It flags findings for human review. It does not auto-resolve.',
+        text: ' Break the forms into smaller pieces and ask a returning client only for what is new. The work was in the flow rather than the interface.',
       },
       {
         lead: 'Result.',
-        text: ' The rules clear 90% of mismatches outright, and those need no review. The remaining 10% are what the agent sees, and every one of them goes to a human: 70% are approved as they stand, without a change. Cycle time went from four hours to thirty minutes. Output quality spot-checked via LLM-as-judge review. These are operational figures from running the system, not a formal audited evaluation.',
+        text: ' Orders went up, because ordering got easier. [NEEDS INPUT: any figure]',
+      },
+      {
+        lead: 'The second thing those calls produced.',
+        text: ' Two new services now on the roadmap, a will search and a crypto liability check, both raised by clients rather than by us.',
       },
       {
         lead: 'What I take from it.',
-        text: ' The cheapest correct answer should run first. An LLM is an escalation path, not a front door.',
+        text: ' The upsell problem was not a pricing or positioning problem. It was six minutes of re-typing.',
       },
     ],
   },
   {
+    id: 'profiles',
+    contents: '12 hours → 90 minutes',
     title: 'Multi-Agent Investment Profiles',
     stamp: { tone: 'delivered', label: 'Delivered' },
     team: 'EPIC Investment Partners · 2024– · 2–3 engineers, 1 designer, 1 QA',
@@ -610,23 +705,13 @@ const CASES = [
       { lead: 'Result.', text: ' Twelve hours to ninety minutes.' },
       {
         lead: 'What I take from it.',
-        text: ' Human-in-the-loop is not a safety layer you bolt on at the end. It is a decision made at design time about which claims the model is permitted to assert unsupervised. Here the answer was none.',
+        text: ' The gate is a design decision, not a safety layer. At the start no figure reached a director that a person had not verified. The final agent took directors’ feedback across runs until the changes they asked for dropped sharply, and the manager review that sat before them came out. Autonomy moved where it was earned and held where it was not.',
       },
     ],
   },
 ]
 
 const WORK = [
-  {
-    name: 'EPIC AI Learning Programme & Live Skills Library',
-    meta: 'EPIC Investment Partners · 2024–',
-    text: ' the firm’s AI governance and enablement programme: an eight-module curriculum taking teams from prompting through connectors, research and custom skill-building, alongside a dossier of the twelve AI skills running in production. I defined the operating rule that runs through all of it — AI drafts, a person reviews and approves, and nothing is final until they do.',
-    links: [
-      { href: 'https://epicipprojects.com/epic-ai-guide/index.html', label: 'Programme' },
-      { href: 'https://epicipprojects.com/epic-ai-guide/skills-library.html', label: 'Skills library' },
-    ],
-    stamps: [{ tone: 'delivered', label: 'Delivered' }],
-  },
   {
     name: 'GenAI KIIDs/PRIIPs generator',
     meta: 'EPIC Investment Partners · 2024–',
@@ -655,24 +740,6 @@ const WORK = [
     stamps: [{ tone: 'delivered', label: 'Delivered' }],
   },
   {
-    name: 'E-Shops',
-    meta: 'SnackMagic / Stadium · 2020–24',
-    text: ' white-labelled self-service enterprise snack stores, launched 0-to-1. $600K incremental monthly revenue within six months (2024), with 30% adoption among top-tier enterprise accounts.',
-    stamps: [{ tone: 'delivered', label: 'Delivered' }],
-  },
-  {
-    name: 'Swag Catalog',
-    meta: 'SnackMagic / Stadium · 2020–24',
-    text: ' self-service swag configurator and bulk ordering portal: a 3,000+ SKU catalogue, a live logo mockup-and-preview tool, and a warehouse intake flow for customers shipping their own inventory. Delivered to scope and handed to BAU.',
-    stamps: [{ tone: 'delivered', label: 'Delivered' }],
-  },
-  {
-    name: 'Swag Locker',
-    meta: 'SnackMagic / Stadium · 2020–24',
-    text: ' virtual inventory letting recipients store and redeem corporate gifts on demand. 20% lift in engagement and a $300K+ monthly revenue stream (2024).',
-    stamps: [{ tone: 'delivered', label: 'Delivered' }],
-  },
-  {
     name: 'AI Personalization Engine',
     meta: 'SnackMagic / Stadium · 2020–24',
     text: ' collaborative-filtering recommender built from scratch in 12 weeks. AOV $45 to $55, a 22% lift, and $300K incremental monthly revenue (2024) — validated over an 8-week A/B test, 15,000 users per cohort, at 95% confidence.',
@@ -698,6 +765,11 @@ const SCOPE = [
     value: 'Product function. PM process. AI governance.',
   },
   {
+    key: 'Forum',
+    value:
+      'Presents technical initiatives to a fortnightly forum: CEO, Chairman, managing directors.',
+  },
+  {
     key: 'Firm-wide',
     value: 'AI governance and enablement. Forward-deployed with business teams.',
   },
@@ -705,7 +777,7 @@ const SCOPE = [
 
 const ESSAY = [
   'The interesting question about an AI feature is almost never whether the model can do it. Given enough scaffolding it usually can, on a good day, in a demo. The question is whether the thing you build will still be worth running in two years, and who is going to keep it alive.',
-  'I am the first product manager EPIC Investment Partners has had. Part of that job was writing down what an AI system has to prove before an operations team is allowed to act on its output. The rule I settled on is unglamorous, and it now runs through everything the firm does with AI: the model drafts, a person reviews and approves, and nothing is final until they do. It sits at the top of every module in the firm’s AI programme and inside every one of the skills running in production.',
+  'I am the first product manager EPIC Investment Partners has had. Part of that job was writing down what an AI system has to prove before an operations team is allowed to act on its output. The starting position is that the model drafts and a person approves, and that is where every system begins. It is not a uniform policy. How much a system decides on its own is set per system, against what that system is allowed to get wrong, and it moves when the evidence says it has been earned.',
   'That rule is not there because the models are weak. It is there because the cost of a wrong figure in a fund document is not symmetrical with the cost of a slower one.',
   'The second rule is harder to hold, because it disappoints people: most workflows that look like AI problems are not.',
   'We tried to automate payroll enquiries with a language model. They arrived as email, scattered across mailboxes, buried in reply chains. It looked ideal. Unstructured text in, structured answer out. It did not work, and the eval said so before anyone’s feelings were involved: the pass rate capped at 53% against a threshold of 70% that we had written down before the build started. The failures were not prompt failures. The model was filling gaps in the input, because the input frequently did not contain the answer.',
@@ -745,6 +817,7 @@ function ThresholdFigure() {
 
 function App() {
   const progressRef = useRef(null)
+  const [artKey, setArtKey] = useState('masthead')
 
   useEffect(() => {
     const root = document.documentElement
@@ -796,6 +869,29 @@ function App() {
         const p = max > 0 ? Math.min(window.scrollY / max, 1) : 0
         bar.style.transform = `scaleX(${p})`
       }
+      // Which artwork owns the viewport right now
+      const zones = [
+        ['masthead', '.masthead'],
+        ['payroll', '#payroll'],
+        ['chosen', '#chosen'],
+        ['basis', '.basis'],
+        ['writing', '.essay'],
+      ]
+      let current = 'masthead'
+      zones.forEach(([key, sel]) => {
+        const el = document.querySelector(sel)
+        if (el && el.getBoundingClientRect().top < window.innerHeight * 0.55) {
+          current = key
+        }
+      })
+      setArtKey(current)
+
+      const layer = document.querySelector('.artlayer')
+      if (layer) {
+        const t = window.scrollY * 0.03
+        layer.style.transform = `translateY(${-t}px) rotate(${Math.min(t * 0.01, 4)}deg)`
+      }
+
       const mid = window.innerHeight / 2
       parallax.forEach((el) => {
         const rect = el.getBoundingClientRect()
@@ -825,20 +921,28 @@ function App() {
 
   return (
     <div className="page">
+      <ArtLayer active={artKey} />
       <div className="progress" ref={progressRef} aria-hidden="true" />
+      <div className="runhead" aria-hidden="true">
+        <a href="#contents">{artKey === 'masthead' ? 'Vishal Diwan' : artKey}</a>
+      </div>
 
       <header className="masthead">
         <div className="col">
           <p className="greeting">Hello — I’m</p>
           <h1>Vishal Diwan</h1>
-          <p className="positioning">Product, AI platforms, regulated fintech.</p>
+          <p className="positioning">
+            Product and AI platforms. Systems that run in production where being
+            wrong has a price.
+          </p>
           <p className="role">
             Senior Technical Product Manager (AI Platform), EPIC Investment
             Partners.
           </p>
           <p className="standfirst">
-            Employee #8 at a company that had no product team. First PM at a
-            fintech that had no product function. What follows is the record.
+            I arrive where the rules do not exist yet and write them. Twice that
+            meant a product function. Now it means deciding what a model is
+            allowed to do without asking.
           </p>
         </div>
         <div className="col">
@@ -853,7 +957,8 @@ function App() {
       <section className="section reveal-el">
         <div className="col prose">
           <p>
-            In 2020 I joined a lunch-delivery startup as employee number eight.
+            In 2020 I joined a New York lunch-delivery startup as employee number
+            eight.
             Two months later there was a pandemic and no lunches. We pivoted to
             corporate gifting and the company went from zero to $20M ARR in eight
             months. My first build was not a feature. It was the QA and release
@@ -869,7 +974,32 @@ function App() {
             money, and what evidence a model has to produce before an operations
             team will act on its output.
           </p>
-          <p className="pull">Both times, the job started before the product did.</p>
+          <p className="pull">
+            Both times the first thing I built was a rule rather than a feature.
+            The rule that matters now is the one about how much a system gets to
+            decide on its own.
+          </p>
+        </div>
+      </section>
+
+      <section className="section reveal-el" id="contents">
+        <div className="col">
+          <span className="section-label">Contents</span>
+          <ul className="contents">
+            {CASES.filter((c) => c.id !== 'profiles').map((c) => (
+              <li key={c.id}>
+                <a href={`#${c.id}`}>
+                  <span className="contents-name">{c.title}</span>
+                  <span className="contents-result">{c.contents}</span>
+                  {c.stamps ? (
+                    <Stamp tone={c.stamps[0].tone}>{c.stamps[0].label}</Stamp>
+                  ) : (
+                    <Stamp tone={c.stamp.tone}>{c.stamp.label}</Stamp>
+                  )}
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 
@@ -891,15 +1021,6 @@ function App() {
               </li>
             ))}
           </ul>
-          <p className="aside">
-            I like being early. Both times I have joined a company it had no
-            product function, and the first thing I built was the thing that let
-            everyone else build. I would rather ship something small that works
-            on Tuesday than something clever that needs a specialist to keep it
-            alive. I am also happy to be wrong in public: the killed project
-            below is on this page precisely because stopping it was the right
-            call.
-          </p>
         </div>
       </section>
 
@@ -907,29 +1028,83 @@ function App() {
         <Curve index={1} />
       </div>
 
+      <section className="section reveal-el" id="chosen">
+        <div className="col prose">
+          <span className="section-label">How the work got chosen</span>
+          <p>
+            None of this started as an AI project. It started as a programme to
+            review and automate administration processes across three areas of
+            the business, and the interesting decisions were about which three
+            and in what order.
+          </p>
+          <p>
+            <b>Penalty exposure first.</b> Reconciliation was picked because
+            rules already existed and people were checking against them by hand,
+            copy-pasting between sources into spreadsheets. The work was well
+            defined and the cost of getting it wrong was high. That combination
+            is the strongest case for automation there is.
+          </p>
+          <p>
+            <b>Then capacity.</b> Onboarding checks were the bottleneck: a team
+            of five clearing about thirty forms a day, a backlog behind them, and
+            orders being turned away for lack of throughput. Here volume was the
+            point.
+          </p>
+          <p>
+            <b>Then auditability.</b> Payroll processing is client-facing service
+            work rather than product. It is still largely manual, deliberately.
+            What it needed was a trail, not a model.
+          </p>
+          <p>
+            Three areas, three different reasons, each stated before the build.
+            Roadmap and KPIs are set quarterly. In practice priorities move on a
+            two-week cycle, which is why the team works in sprints against a
+            quarterly frame. Every technical initiative goes to a fortnightly
+            forum with the CEO, Chairman and the managing directors who own each
+            area. I present the case and take the questions.
+          </p>
+          <p>
+            A small team does not get to build things and throw them away, so the
+            killing happens before the building. I prototype everything myself,
+            and a prototype exists to answer three questions: will the business
+            actually adopt this, how much time does it really save, and what
+            should we not build. A warehouse automation flow died that way. So
+            did an attempt to clean incoming data from scattered sources without a
+            person in the loop.
+          </p>
+          <p>
+            We still write epics. We stopped writing PRDs. A working demo, built
+            with AI in the time a document would have taken, settles arguments a
+            document cannot.
+          </p>
+        </div>
+      </section>
+
       <section className="section reveal-el">
         <div className="col">
           <span className="section-label">Basis</span>
           <div className="basis">
-            <p>A note on how to read the numbers on this page.</p>
+            <p>A note on how to read the numbers here.</p>
             <p>
-              Almost every result here is a time figure. Twelve hours to ninety
-              minutes. Four hours to thirty minutes. Three days to one. Very few
-              of them are scale figures, and that is deliberate.
+              Most results on this page are time figures. Twelve hours to ninety
+              minutes. Four hours to thirty. Three days to one. Few are scale
+              figures, and that is a read of the environment rather than a limit
+              of the work.
             </p>
             <p>
-              EPIC is a fund administration business with decades of operating
-              history. Volumes are large but they are not doubling next quarter.
-              Nobody here needs a system that handles ten times the load. They
-              need the four hours back, on Tuesday, from the person who is
-              currently spending it. At a firm this age the binding constraint is
-              operator time, not throughput ceiling, and optimising for the
-              constraint you don’t have is the most expensive mistake available.
+              This is a fund administration business with decades of operating
+              history. The binding constraint is not throughput ceiling, it is
+              what a mistake costs. A reconciliation error carries penalty
+              exposure into the hundreds of thousands of pounds. A wrong figure
+              in a client document is not a formatting problem. In that setting
+              the useful question is not how much load a system survives, it is
+              how much of it can run without a person and still be defensible
+              afterwards.
             </p>
             <p>
-              So the target was efficiency, and the numbers report efficiency.
-              When they look modest next to a growth-stage portfolio, that is the
-              right read of the environment, not a limit of the work.
+              Where scale did matter, it is on the page. One workflow was
+              capacity-blocked with a live backlog, and that one is measured in
+              volume.
             </p>
           </div>
         </div>
@@ -940,13 +1115,25 @@ function App() {
           <span className="section-label">Case studies</span>
         </div>
         {CASES.map((c, i) => (
-          <article className="case reveal-el" key={c.title}>
+          <article className="case reveal-el" id={c.id} key={c.title}>
             <div className="col">
               <div className="case-head">
                 <h3>{c.title}</h3>
-                <Stamp tone={c.stamp.tone}>{c.stamp.label}</Stamp>
+                {c.stamps ? (
+                  <span className="case-stamps">
+                    {c.stamps.map((st) => (
+                      <Stamp tone={st.tone} key={st.label}>
+                        {st.label}
+                      </Stamp>
+                    ))}
+                  </span>
+                ) : (
+                  <Stamp tone={c.stamp.tone}>{c.stamp.label}</Stamp>
+                )}
               </div>
-              {c.team ? <p className="case-team">{c.team}</p> : null}
+              {c.team || c.meta ? (
+                <p className="case-team">{c.team || c.meta}</p>
+              ) : null}
               {c.figure ? <ThresholdFigure /> : null}
               {c.diagram === 'nav' ? <NavDiagram /> : null}
               {c.diagram === 'mcp' ? <McpDiagram /> : null}
@@ -973,6 +1160,9 @@ function App() {
                 )}
               </div>
               {c.time ? <TimeBar {...c.time} /> : null}
+              <a className="to-contents" href="#contents">
+                &#8593; contents
+              </a>
               {i < CASES.length - 1 ? <Curve index={i + 2} /> : null}
             </div>
           </article>
@@ -1048,7 +1238,7 @@ function App() {
       <section className="section reveal-el essay">
         <div className="col">
           <span className="section-label">Writing</span>
-          <h3>When Not to Build</h3>
+          <h3>Earned Autonomy</h3>
           <p className="essay-standfirst">
             Most of the judgement in AI product work is deciding what not to
             automate, and when to wait for the technology instead of building
