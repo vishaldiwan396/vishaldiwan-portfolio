@@ -360,6 +360,68 @@ function Field() {
   )
 }
 
+/* A small seeded seal. Each principle gets its own mark, generated
+   rather than drawn, so the set feels of a piece without repeating. */
+function polar(cx, cy, r, deg) {
+  const a = ((deg - 90) * Math.PI) / 180
+  return [cx + r * Math.cos(a), cy + r * Math.sin(a)]
+}
+
+function arcPath(cx, cy, r, start, end) {
+  const [x1, y1] = polar(cx, cy, r, start)
+  const [x2, y2] = polar(cx, cy, r, end)
+  const large = end - start > 180 ? 1 : 0
+  return `M ${x1.toFixed(2)} ${y1.toFixed(2)} A ${r} ${r} 0 ${large} 1 ${x2.toFixed(2)} ${y2.toFixed(2)}`
+}
+
+function Glyph({ seed }) {
+  const rng = mulberry32(seed * 2654435761)
+  const rings = []
+  const count = 3 + Math.floor(rng() * 3)
+  for (let i = 0; i < count; i += 1) {
+    const r = 7 + i * 5.5 + rng() * 2
+    const start = rng() * 360
+    const sweep = 70 + rng() * 190
+    rings.push({ r, start, end: start + sweep, accent: i === count - 1 })
+  }
+  const dot = polar(24, 24, 4 + rng() * 3, rng() * 360)
+  return (
+    <svg className="glyph" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+      {rings.map((g) => (
+        <path
+          key={`${g.r}-${g.start}`}
+          d={arcPath(24, 24, g.r, g.start, g.end)}
+          className={g.accent ? 'glyph-accent' : undefined}
+        />
+      ))}
+      <circle cx={dot[0]} cy={dot[1]} r="1.4" className="glyph-dot" />
+    </svg>
+  )
+}
+
+const PRINCIPLES = [
+  {
+    line: 'Not everything needs AI.',
+    note: 'Most workflows that look like AI problems are not. Saying so early is cheaper than proving it late.',
+  },
+  {
+    line: 'The cheapest correct answer runs first.',
+    note: 'Deterministic rules take the cases that were never ambiguous. The model is an escalation path.',
+  },
+  {
+    line: 'AI drafts. A person approves.',
+    note: 'The rule I wrote for the firm, and the one that sits at the top of every module and every skill in production.',
+  },
+  {
+    line: 'Write the threshold down before the eval runs.',
+    note: 'A number agreed afterwards is a negotiation, and the negotiation ends with the model shipping.',
+  },
+  {
+    line: 'The best system is the one nobody has to rescue.',
+    note: 'Scaffolding is real software. Someone inherits it, re-tunes it, and explains it long after you have moved on.',
+  },
+]
+
 function Stamp({ tone, children }) {
   return (
     <span className="stamp" data-tone={tone}>
@@ -671,6 +733,7 @@ function App() {
 
       <header className="masthead">
         <div className="col">
+          <p className="greeting">Hello — I’m</p>
           <h1>Vishal Diwan</h1>
           <p className="positioning">Product, AI platforms, regulated fintech.</p>
           <p className="role">
@@ -711,6 +774,36 @@ function App() {
             team will act on its output.
           </p>
           <p className="pull">Both times, the job started before the product did.</p>
+        </div>
+      </section>
+
+      <div className="col">
+        <Curve index={2} />
+      </div>
+
+      <section className="section reveal-el">
+        <div className="col">
+          <span className="section-label">How I work</span>
+          <ul className="principles">
+            {PRINCIPLES.map((p, i) => (
+              <li className="principle" key={p.line}>
+                <Glyph seed={i + 3} />
+                <div>
+                  <p className="principle-line">{p.line}</p>
+                  <p className="principle-note">{p.note}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+          <p className="aside">
+            I like being early. Both times I have joined a company it had no
+            product function, and the first thing I built was the thing that let
+            everyone else build. I would rather ship something small that works
+            on Tuesday than something clever that needs a specialist to keep it
+            alive. I am also happy to be wrong in public: the killed project
+            below is on this page precisely because stopping it was the right
+            call.
+          </p>
         </div>
       </section>
 
@@ -761,12 +854,26 @@ function App() {
               {c.diagram === 'nav' ? <NavDiagram /> : null}
               {c.diagram === 'mcp' ? <McpDiagram /> : null}
               <div className="case-body">
-                {c.body.map((p) => (
-                  <p key={p.lead}>
-                    <b>{p.lead}</b>
-                    {p.text}
-                  </p>
-                ))}
+                {c.body.map((p) =>
+                  p.lead.startsWith('What I take') ? (
+                    <div
+                      className={
+                        p.text.trim().length > 200
+                          ? 'takeaway is-long'
+                          : 'takeaway'
+                      }
+                      key={p.lead}
+                    >
+                      <span className="takeaway-label">{p.lead}</span>
+                      <p className="case-takeaway">{p.text.trim()}</p>
+                    </div>
+                  ) : (
+                    <p key={p.lead}>
+                      <b>{p.lead}</b>
+                      {p.text}
+                    </p>
+                  ),
+                )}
               </div>
               {c.time ? <TimeBar {...c.time} /> : null}
               {i < CASES.length - 1 ? <Curve index={i + 2} /> : null}
@@ -851,11 +958,21 @@ function App() {
             around it.
           </p>
           <div className="essay-body">
-            {ESSAY.map((para, i) => (
-              <p className={i === 0 ? 'lede' : undefined} key={para.slice(0, 40)}>
-                {para}
-              </p>
-            ))}
+            {ESSAY.map((para, i) => {
+              // Three beats of the argument are set as display type. Same
+              // sentences, lifted out of the column so the piece breathes.
+              const display = i === 3 || i === 8 || i === 13
+              return (
+                <p
+                  className={
+                    i === 0 ? 'lede' : display ? 'essay-display' : undefined
+                  }
+                  key={para.slice(0, 40)}
+                >
+                  {para}
+                </p>
+              )
+            })}
           </div>
         </div>
       </section>
