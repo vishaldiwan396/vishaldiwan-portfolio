@@ -525,6 +525,221 @@ function Motif({
   )
 }
 
+/* Six labelled blocks per case study became three. Nothing was rewritten:
+   the original blocks are grouped, and where an original lead-in carried
+   meaning the sentence after it depends on, it survives as an inline cue. */
+const GROUPS = [
+  [1, 'The situation.'],
+  [2, 'The call.'],
+  [3, 'What happened.'],
+]
+
+/* Five figures added to carry arguments the prose was carrying alone. Same
+   grammar as the existing diagrams: hairline strokes, mono labels, no fills
+   except the two semantic accents, which never decorate. */
+
+function AutonomyScale() {
+  return (
+    <figure className="diagram fig-scale reveal-el">
+      <svg
+        viewBox="0 0 620 128"
+        role="img"
+        aria-label="A scale from a person on every output to running alone. Payroll sits at the far left with no autonomy, investment profiles left of centre with an arrow showing the setting moved right when a review tier came out, and NAV reconciliation at the right, ninety percent unattended."
+      >
+        <defs>
+          <marker
+            id="sc-arrow"
+            viewBox="0 0 8 8"
+            refX="7"
+            refY="4"
+            markerWidth="7"
+            markerHeight="7"
+            orient="auto"
+          >
+            <path d="M0,1 L7,4 L0,7" className="sc-head" />
+          </marker>
+        </defs>
+
+        <line x1="20" y1="70" x2="600" y2="70" className="sc-axis" />
+        <line x1="20" y1="64" x2="20" y2="76" className="sc-axis" />
+        <line x1="600" y1="64" x2="600" y2="76" className="sc-axis" />
+
+        <line
+          x1="196"
+          y1="70"
+          x2="252"
+          y2="70"
+          className="sc-move"
+          markerEnd="url(#sc-arrow)"
+        />
+
+        <circle cx="54" cy="70" r="5" className="sc-dot is-halt" />
+        <circle cx="264" cy="70" r="5" className="sc-dot is-good" />
+        <circle cx="566" cy="70" r="5" className="sc-dot is-good" />
+
+        <text x="20" y="44" className="sc-name is-left">AI payroll</text>
+        <text x="264" y="44" className="sc-name">Investment profiles</text>
+        <text x="600" y="44" className="sc-name is-right">NAV reconciliation</text>
+
+        <text x="20" y="104" className="sc-end">person on every output</text>
+        <text x="600" y="104" className="sc-end is-right">runs alone</text>
+      </svg>
+      <figcaption>
+        The arrow is the only setting that moved. A manager check came out once
+        the corrections it was catching had stopped arriving.
+      </figcaption>
+    </figure>
+  )
+}
+
+function TwoBuyers() {
+  return (
+    <figure className="diagram fig-fork reveal-el">
+      <svg
+        viewBox="0 0 620 172"
+        role="img"
+        aria-label="One assumed buyer forks into two live routes, account managed and self-serve, with a third branch for SwagMagic ending short."
+      >
+        <text x="20" y="82" className="fk-label">one buyer, assumed</text>
+        <line x1="150" y1="88" x2="232" y2="88" className="fk-line" />
+
+        <path d="M232,88 C266,88 266,40 300,40" className="fk-line" />
+        <line x1="300" y1="40" x2="452" y2="40" className="fk-line" />
+        <circle cx="452" cy="40" r="4" className="fk-dot is-good" />
+        <text x="466" y="44" className="fk-label">account managed</text>
+
+        <path d="M232,88 C266,88 266,104 300,104" className="fk-line" />
+        <line x1="300" y1="104" x2="452" y2="104" className="fk-line" />
+        <circle cx="452" cy="104" r="4" className="fk-dot is-good" />
+        <text x="466" y="108" className="fk-label">self-serve</text>
+
+        <path d="M232,88 C258,88 258,148 284,148" className="fk-line is-halt" />
+        <line x1="284" y1="148" x2="336" y2="148" className="fk-line is-halt" />
+        <line x1="340" y1="141" x2="352" y2="155" className="fk-stop" />
+        <line x1="352" y1="141" x2="340" y2="155" className="fk-stop" />
+        <text x="366" y="152" className="fk-label is-halt">SwagMagic</text>
+      </svg>
+      <figcaption>
+        Two live routes where the business had planned for one. The third
+        depended on a person behind it for every order.
+      </figcaption>
+    </figure>
+  )
+}
+
+function FormSplit() {
+  const seg = [0, 1, 2, 3, 4]
+  return (
+    <figure className="diagram fig-form reveal-el">
+      <svg
+        viewBox="0 0 620 148"
+        role="img"
+        aria-label="A new client fills one undivided form. A returning client fills the same form broken into segments, with only the last one left to complete."
+      >
+        <text x="20" y="26" className="fm-label">new client, every field</text>
+        <rect x="20" y="36" width="584" height="18" className="fm-bar" />
+
+        <text x="20" y="96" className="fm-label">
+          returning client, new fields only
+        </text>
+        {seg.map((i) => (
+          <rect
+            key={i}
+            x={20 + i * 119}
+            y="106"
+            width="109"
+            height="18"
+            className={i === 4 ? 'fm-bar is-fill' : 'fm-bar'}
+          />
+        ))}
+
+      </svg>
+      <figcaption>
+        The work was in the flow rather than the interface. Newly added services
+        now account for 12% of all orders processed — a figure the bars above do
+        not depict, since they are a form, not a share.
+      </figcaption>
+    </figure>
+  )
+}
+
+const PRIMITIVES = [
+  { key: 'evals', name: 'Evals', note: 'no cheap re-run' },
+  { key: 'cost', name: 'Cost', note: 'tokens never sent' },
+  { key: 'escalation', name: 'Escalation', note: 'raised until cleared' },
+  { key: 'memory', name: 'Memory', note: 'corrections written back' },
+]
+
+function FourPrimitives() {
+  const mark = {
+    // three assertions, repeating
+    evals: <g><line x1="-14" y1="-10" x2="-14" y2="10" /><line x1="-4" y1="-10" x2="-4" y2="10" /><line x1="6" y1="-10" x2="6" y2="10" /><line x1="16" y1="-4" x2="16" y2="10" /></g>,
+    // a step down before anything is spent
+    cost: <g><polyline points="-16,-8 -2,-8 -2,4 14,4" fill="none" /></g>,
+    // raised, and it stays raised
+    escalation: <g><line x1="-8" y1="-12" x2="-8" y2="12" /><path d="M-8,-12 L10,-6 L-8,0" fill="none" /></g>,
+    // back around into the next run
+    memory: <g><path d="M12,-6 A12,12 0 1 0 12,6" fill="none" /><path d="M6,1 L12,7 L18,1" fill="none" /></g>,
+  }
+  return (
+    <figure className="diagram fig-marks reveal-el">
+      <svg
+        viewBox="0 0 620 116"
+        role="img"
+        aria-label="Four primitives: evals, cost, escalation and memory."
+      >
+        {PRIMITIVES.map((p, i) => (
+          <g key={p.key} transform={`translate(${78 + i * 155}, 34)`}>
+            <g className="mk">{mark[p.key]}</g>
+            <text y="44" className="mk-name">
+              {p.name}
+            </text>
+            <text y="64" className="mk-note">
+              {p.note}
+            </text>
+          </g>
+        ))}
+      </svg>
+    </figure>
+  )
+}
+
+const DRIVERS = [
+  ['penalty exposure', 'rules existed, mistakes cost'],
+  ['capacity', 'a backlog, orders turned away'],
+  ['auditability', 'needed a trail, not a model'],
+]
+
+function ThreeDrivers() {
+  return (
+    <figure className="diagram fig-drivers reveal-el">
+      <svg
+        viewBox="0 0 620 132"
+        role="img"
+        aria-label="The three areas in the order they were picked: penalty exposure first, then capacity, then auditability."
+      >
+        {DRIVERS.map(([name, why], i) => (
+          <g key={name} transform={`translate(${104 + i * 206}, 0)`}>
+            <text y="42" className="dv-num">
+              {`0${i + 1}`}
+            </text>
+            <line x1="-46" y1="58" x2="46" y2="58" className="dv-rule" />
+            <text y="84" className="dv-name">
+              {name}
+            </text>
+            <text y="104" className="dv-note">
+              {why}
+            </text>
+          </g>
+        ))}
+      </svg>
+      <figcaption>
+        Three areas, three different reasons, in the order they were taken.
+      </figcaption>
+    </figure>
+  )
+}
+
 function Stamp({ tone, children }) {
   return (
     <span className="stamp" data-tone={tone}>
@@ -549,23 +764,23 @@ const CASES = [
     },
     body: [
       {
-        lead: 'The problem.',
+        lead: 'The problem.', g: 1,
         text: ' Payroll enquiries arrived as unstructured email, scattered across mailboxes and buried in reply chains. Every one was resolved by hand, averaging three days to close.',
       },
       {
-        lead: 'What the evidence said.',
+        lead: 'What the evidence said.', g: 1,
         text: ' The eval ran one company’s enquiries over a single month: payroll data for 200+ employees, up to five fields each. The sources were a legacy payroll system, scattered email threads the agent had to scan, and several badly formatted Excel files. No API access, so nothing could be read at source. The 70% pass threshold was fixed in writing before the build started. After a full data-cleanup pass the eval capped at 53%. The failures were not prompt failures: the model was filling gaps because the input frequently did not hold the answer.',
       },
       {
-        lead: 'The decision.',
+        lead: 'The decision.', g: 2,
         text: ' I killed the AI approach and shipped a rule-based, human-in-the-loop system instead: the Payroll Enquiry Tracker. Deterministic routing rules, and an interface that walks the requester through the flow so the enquiry arrives complete and never leaves the system.',
       },
       {
-        lead: 'Result.',
+        lead: 'Result.', g: 3,
         text: ' Enquiries now close in one to two days, against a previous average of three. None of that came from a model. It came from writing down the rules and fixing the path the user was already on.',
       },
       {
-        lead: 'What I take from it.',
+        lead: 'What I take from it.', g: 3,
         text: ' The threshold did its job. It was fixed before the build, so 53% against 70% was a clear answer rather than a negotiation, and the work was being willing to read it. The expensive lesson sat upstream of the model. Every failure traced back to ingestion: no pipeline, and data arriving scattered across a legacy system, mailboxes and malformed spreadsheets. Ingestion is the deciding factor in AI automation. No amount of prompting or model selection compensates for a pipeline that was never built.',
       },
     ],
@@ -581,23 +796,23 @@ const CASES = [
     meta: 'SnackMagic / Stadium ・ 2020–24',
     body: [
       {
-        lead: 'The assumption.',
+        lead: 'The assumption.', g: 1, cue: 'The assumption:',
         text: ' Corporate gifting was an account-managed business. A customer told us what they wanted and a person on our side made it happen: orders by email, fulfilment by phone, a human in every loop.',
       },
       {
-        lead: 'What testing showed.',
+        lead: 'What testing showed.', g: 1,
         text: ' An A/B test put both routes in front of customers and measured which one they adopted and which one they said they preferred. Some customers do want to be reached out to and have things handled for them. Others want control, and would rather set things up themselves than raise a request with anyone. One buyer, we thought. Two buyers, it turned out.',
       },
       {
-        lead: 'The decision.',
+        lead: 'The decision.', g: 2,
         text: ' Build E-Shops for the self-directed buyer: a white-labelled self-service store where a company places orders and sends invites itself, with account management still available inside it for the customers who want that. SwagMagic, a simpler ordering portal that depended on the customer team handling everything behind it, was killed. That was not one person’s call. The test made it.',
       },
       {
-        lead: 'Result.',
+        lead: 'Result.', g: 3,
         text: ' 30% adoption among top-tier enterprise accounts, and $600K incremental monthly revenue within six months (2024).',
       },
       {
-        lead: 'What I take from it.',
+        lead: 'What I take from it.', g: 3,
         text: ' We had not built the wrong product. We had assumed one customer where there were two, and the test was cheaper than the assumption.',
       },
     ],
@@ -607,7 +822,7 @@ const CASES = [
     contents: '90% unattended',
     title: 'Agentic NAV Reconciliation',
     stamp: { tone: 'delivered', label: 'Delivered' },
-    team: 'EPIC Investment Partners · 2024– · 2–3 engineers, 1 designer, 1 QA',
+    meta: 'EPIC Investment Partners · 2024–',
     diagram: 'nav',
     time: {
       label: 'Reconciliation cycle',
@@ -617,23 +832,23 @@ const CASES = [
     },
     body: [
       {
-        lead: 'The problem.',
+        lead: 'The problem.', g: 1,
         text: ' NAV reconciliation ran across four source data feeds and took four hours a cycle. A mistake here is not a rounding error; it carries penalty exposure into the hundreds of thousands of pounds.',
       },
       {
-        lead: 'The option I rejected.',
+        lead: 'The option I rejected.', g: 2, cue: 'The option I rejected:',
         text: ' Put an LLM across every mismatch. Most NAV mismatches are deterministic. Sending them through a probabilistic system costs more, runs slower, and produces a worse audit trail for the cases that were never ambiguous.',
       },
       {
-        lead: 'The decision.',
+        lead: 'The decision.', g: 2, cue: 'The decision:',
         text: ' Hybrid, with the cheap path first. Structured rule lookups resolve standard mismatches. Only on rule failure does an investigation agent activate: semantic reasoning over Pinecone vector embeddings, determining the likely cause of the mismatch. It flags findings for human review. It does not auto-resolve.',
       },
       {
-        lead: 'Result.',
+        lead: 'Result.', g: 3,
         text: ' Ninety percent of mismatches clear unattended. The remaining ten reach a person with a likely cause already attached, and 70% of those are approved as they stand. Cycle time went from four hours to thirty minutes. Output quality spot-checked via LLM-as-judge review. These are operational figures from running the system, not a formal audited evaluation.',
       },
       {
-        lead: 'What I take from it.',
+        lead: 'What I take from it.', g: 3,
         text: ' Autonomy is cheapest where the answer was never ambiguous. Rules take those cases, the model takes the ones needing judgment, and a person sees only what neither settled.',
       },
     ],
@@ -643,7 +858,7 @@ const CASES = [
     contents: '30/day → 300+ capacity',
     title: 'KYC Extraction: Choosing the Model',
     stamp: { tone: 'delivered', label: 'Delivered' },
-    team: 'EPIC Investment Partners \u00b7 2024\u2013 \u00b7 2\u20133 engineers, 1 designer, 1 QA',
+    meta: 'EPIC Investment Partners · 2024–',
     time: {
       label: 'Manual data entry per form',
       beforeLabel: '15 minutes',
@@ -652,27 +867,27 @@ const CASES = [
     },
     body: [
       {
-        lead: 'The problem.',
+        lead: 'The problem.', g: 1,
         text: ' KYC forms were keyed in by hand, around fifteen minutes each. Any model could plausibly do the extraction. The question was which one to put into production, and how to know rather than guess.',
       },
       {
-        lead: 'How I decided to find out.',
+        lead: 'How I decided to find out.', g: 1,
         text: ' A golden dataset, built before any model was chosen: 50 documents, 100+ fields each, scored field by field against the operations team\u2019s own manual extraction. That is 5,000+ field-level comparisons, and it made the question answerable instead of arguable.',
       },
       {
-        lead: 'The field.',
+        lead: 'The field.', g: 1,
         text: ' Six frontier models, benchmarked through OpenRouter \u2014 ChatGPT, Claude Sonnet, Grok, Gemini, Kimi and GLM.',
       },
       {
-        lead: 'The decision.',
+        lead: 'The decision.', g: 2,
         text: ' Google Document AI with Gemini Flash. Chosen on cost, effectiveness and accuracy together rather than accuracy alone: at this volume the difference between models is paid every single day, and a marginally better score is not worth an unbounded bill.',
       },
       {
-        lead: 'Result.',
+        lead: 'Result.', g: 3,
         text: ' In production across 12 document types. The five-person team was clearing about thirty forms a day; capacity is now over three hundred a day with no added headcount, and actual run-rate sits at seven to eight hundred a week against real demand. Manual entry per form fell from fifteen minutes to under three. Clean-pass runs above 90% on UK English-language documents and around 70% on German, French and Swiss ones; the rest are handled by hand.',
       },
       {
-        lead: 'What I take from it.',
+        lead: 'What I take from it.', g: 3,
         text: ' Build the golden set before picking the model. Once the scoring is fixed and public, model choice stops being a matter of taste and becomes a matter of arithmetic \u2014 and the arithmetic usually includes a cost column that the benchmark leaderboards leave out.',
       },
     ],
@@ -685,27 +900,27 @@ const CASES = [
     meta: 'EPIC Investment Partners ・ 2024–',
     body: [
       {
-        lead: 'Where it came from.',
+        lead: 'Where it came from.', g: 1,
         text: ' Twelve to fifteen client interviews, and close to a hundred more clients reached by email. None of it was measuring adoption. It was collating what was in the way.',
       },
       {
-        lead: 'What they told us.',
+        lead: 'What they told us.', g: 1,
         text: ' Returning clients were filling out a whole new form to add a service they had already given us most of the information for. It was not a complaint about the product. It was the reason they were not ordering more.',
       },
       {
-        lead: 'The decision.',
+        lead: 'The decision.', g: 2,
         text: ' Break the forms into smaller pieces and ask a returning client only for what is new. The work was in the flow rather than the interface.',
       },
       {
-        lead: 'Result.',
+        lead: 'Result.', g: 3,
         text: ' A returning client can add a service without starting again. Newly added services now account for 12% of all orders processed.',
       },
       {
-        lead: 'The second thing those calls produced.',
+        lead: 'The second thing those calls produced.', g: 3, cue: 'Also from those calls:',
         text: ' Two new services now on the roadmap, a will search and a crypto liability check, both raised by clients rather than by us.',
       },
       {
-        lead: 'What I take from it.',
+        lead: 'What I take from it.', g: 3,
         text: ' The upsell problem was not a pricing or positioning problem. It was six minutes of re-typing.',
       },
     ],
@@ -715,7 +930,7 @@ const CASES = [
     contents: '12 hours → 90 minutes',
     title: 'Multi-Agent Investment Profiles',
     stamp: { tone: 'delivered', label: 'Delivered' },
-    team: 'EPIC Investment Partners · 2024– · 2–3 engineers, 1 designer, 1 QA',
+    meta: 'EPIC Investment Partners · 2024–',
     diagram: 'mcp',
     time: {
       label: 'Time to assemble a short profile',
@@ -725,24 +940,24 @@ const CASES = [
     },
     body: [
       {
-        lead: 'The problem.',
+        lead: 'The problem.', g: 1,
         text: ' Short investment profiles for multi-million dollar pitches took twelve hours to assemble, with the underlying data sitting in Dynamo, a legacy CRM. The first version ingested that data from a PDF downloaded off the Dynamo site, and hallucinated numbers often enough that the output could not be trusted unread.',
       },
       {
-        lead: 'The constraint that shaped everything.',
+        lead: 'The constraint that shaped everything.', g: 1,
         text: ' This is a document where a wrong figure is not a formatting error.',
       },
       {
-        lead: 'The decision.',
+        lead: 'The decision.', g: 2,
         text: ' I replaced the PDF ingestion with a custom Model Context Protocol server on internal infrastructure, integrating Dynamo over REST against an OpenAPI spec, so the workflow reads from the record rather than from the model’s memory. Two rules carry the rest: every number is pulled and verified twice, independently, and any number without a citation behind it is flagged rather than written. Prompt routing and context-window optimisation cut token usage by around 40%.',
       },
       {
-        lead: 'The shape of it.',
+        lead: 'The shape of it.', g: 2,
         text: ' Two research agents, one for financial detail and one for people, the second wired to Apify. A collator merges their output into a single source of truth. A checker verifies every citation and reviews the flags the research agents raised. A person then reviews content and facts, and only after that does a presentation agent build the deck. After QA, a director agent takes the directors’ feedback on the finished output; after roughly thirty runs it carries most of it.',
       },
-      { lead: 'Result.', text: ' Twelve hours to ninety minutes.' },
+      { lead: 'Result.', g: 3, text: ' Twelve hours to ninety minutes.' },
       {
-        lead: 'What I take from it.',
+        lead: 'What I take from it.', g: 3,
         text: ' The gate is a design decision, not a safety layer. At the start no figure reached a director that a person had not verified. The final agent took directors’ feedback across runs until the changes they asked for dropped sharply, and the manager review that sat before them came out. Autonomy moved where it was earned and held where it was not.',
       },
     ],
@@ -818,8 +1033,7 @@ const ESSAY = [
   'I am the first product manager EPIC Investment Partners has had. Part of that job was writing down what an AI system has to prove before an operations team is allowed to act on its output. The starting position is that the model drafts and a person approves, and that is where every system begins. It is not a uniform policy. How much a system decides on its own is set per system, against what that system is allowed to get wrong, and it moves when the evidence says it has been earned.',
   'That rule is not there because the models are weak. It is there because the cost of a wrong figure in a fund document is not symmetrical with the cost of a slower one.',
   'The second rule is harder to hold, because it disappoints people: most workflows that look like AI problems are not.',
-  'We tried to automate payroll enquiries with a language model. They arrived as email, scattered across mailboxes, buried in reply chains. It looked ideal. Unstructured text in, structured answer out. It did not work, and the eval said so before anyone’s feelings were involved: the pass rate capped at 53% against a threshold of 70% that we had written down before the build started. The failures were not prompt failures. The model was filling gaps in the input, because the input frequently did not contain the answer.',
-  'So we shipped a rule-based tracker with a human in the loop, and an interface that makes the enquiry arrive complete. Resolution went from an average of three days to one or two. None of it came from a model.',
+  'The payroll build above is the example: the evidence settled it before anyone’s feelings were involved, and what shipped instead had no model in it.',
   'The part worth taking from that is not the number. It is what the alternative would have cost. To force the model over the line we would have had to build scaffolding around it: extraction heuristics, fallback rules, a correction interface, some notion of confidence, and an eval suite to keep the whole arrangement honest. All of that is real software. It has to be maintained, re-tuned when a vendor deprecates a model, re-evaluated when the data drifts, and explained to every new person who inherits it.',
   'A complicated system solving a simple problem is not a clever outcome. It is a liability with a long tail, and the tail is usually paid by whoever comes after you.',
   'The third rule follows from the second, and I hold it as a principle rather than a war story: sometimes the correct decision is to wait.',
@@ -1063,6 +1277,7 @@ function App() {
                 <div>
                   <p className="principle-line">{p.line}</p>
                   <p className="principle-note">{p.note}</p>
+                  {i === 0 ? <AutonomyScale /> : null}
                 </div>
               </li>
             ))}
@@ -1109,27 +1324,24 @@ function App() {
               {c.figure ? <ThresholdFigure /> : null}
               {c.diagram === 'nav' ? <NavDiagram /> : null}
               {c.diagram === 'mcp' ? <McpDiagram /> : null}
+              {c.id === 'eshops' ? <TwoBuyers /> : null}
+              {c.id === 'portal' ? <FormSplit /> : null}
               <div className="case-body">
-                {c.body.map((p) =>
-                  p.lead.startsWith('What I take') ? (
-                    <div
-                      className={
-                        p.text.trim().length > 200
-                          ? 'takeaway is-long'
-                          : 'takeaway'
-                      }
-                      key={p.lead}
-                    >
-                      <span className="takeaway-label">{p.lead}</span>
-                      <p className="case-takeaway">{p.text.trim()}</p>
-                    </div>
-                  ) : (
-                    <p key={p.lead}>
-                      <b>{p.lead}</b>
-                      {p.text}
+                {GROUPS.map(([g, label]) => {
+                  const parts = c.body.filter((p) => p.g === g)
+                  if (!parts.length) return null
+                  return (
+                    <p key={g}>
+                      <b>{label}</b>
+                      {parts.map((p) => (
+                        <span key={p.lead}>
+                          {p.cue ? <i className="cue">{' ' + p.cue}</i> : null}
+                          {p.text}
+                        </span>
+                      ))}
                     </p>
-                  ),
-                )}
+                  )
+                })}
               </div>
               {c.time ? <TimeBar {...c.time} /> : null}
               <a className="to-contents" href="#contents">
@@ -1146,10 +1358,63 @@ function App() {
       </div>
 
 
+      <section className="section reveal-el">
+        <Motif src={SEAL} x={-455} top={90} size={290} mode="spin" dur={205} opacity={0.5} />
+        <Motif src={CONTOURS} x={470} top={760} size={300} mode="breathe" dur={74} tilt={-4} opacity={0.4} />
+        <div className="col prose">
+          <span className="section-label">Infrastructure</span>
+          <FourPrimitives />
+          <p>
+            <b>Evals.</b> Evals are test cases. Nothing more exotic than that:
+            assertions that keep refining as you learn what breaks. We built a
+            harness to choose an extraction model, 5,000+ field-level comparisons
+            across six models, and then had no cheap way to keep it running. So
+            it picked a winner and stopped. The gap is not the eval. It is that
+            nothing made re-running it as automatic as a test suite.
+          </p>
+          <p>
+            <b>Cost.</b> The most expensive thing we ran was document extraction.
+            The saving did not come from a cheaper model or a spend cap. It came
+            from converting documents to markdown with libraries before anything
+            reached the model, so the tokens were never spent. A per-request
+            ceiling stops a runaway; it does not tell you which workload is
+            expensive or what to do about it. The cheapest token is the one you
+            don’t send.
+          </p>
+          <p>
+            <b>Escalation.</b> Alerts get dismissed. So the flags sit in the
+            architecture instead: they raise on their own and come down only on
+            human intervention, which means a failure blocks the path rather than
+            joining a queue. A durable failure state with an owner. No framework
+            offered one.
+          </p>
+          <p>
+            <b>Memory.</b> A reviewer’s correction routes back to the agent that
+            produced the error and is written into that agent’s memory file as a
+            known issue, loaded on the next run. It is infrastructure, not a
+            triage step. A couple of hundred runs in, the memory is the product of
+            the review team rather than of the prompt. That is the primitive I
+            most wanted and had to build: a way for a human correction to change
+            the next run without anyone editing a prompt.
+          </p>
+        </div>
+      </section>
+
+      <div className="col">
+        <Curve index={2} />
+      </div>
+
       <section className="section reveal-el" id="chosen">
         <Motif src={TRIBUTARIES} x={470} top={150} size={330} mode="breathe" dur={72} tilt={4} opacity={0.6} />
         <div className="col prose">
           <span className="section-label">How the work got chosen</span>
+          <p>
+            Most results here are time figures rather than scale figures. The
+            binding constraint in this business is not throughput ceiling, it is
+            what a mistake costs: a reconciliation error carries penalty exposure
+            into the hundreds of thousands of pounds.
+          </p>
+          <ThreeDrivers />
           <p>
             None of this started as an AI project. It started as a programme to
             review and automate administration processes across three areas of
@@ -1206,82 +1471,6 @@ function App() {
         </div>
       </section>
 
-      <div className="col">
-        <Curve index={2} />
-      </div>
-
-      <section className="section reveal-el">
-        <Motif src={SEAL} x={-455} top={90} size={290} mode="spin" dur={205} opacity={0.5} />
-        <Motif src={CONTOURS} x={470} top={760} size={300} mode="breathe" dur={74} tilt={-4} opacity={0.4} />
-        <div className="col prose">
-          <span className="section-label">Infrastructure</span>
-          <p>
-            <b>Evals.</b> Evals are test cases. Nothing more exotic than that:
-            assertions that keep refining as you learn what breaks. We built a
-            harness to choose an extraction model, 5,000+ field-level comparisons
-            across six models, and then had no cheap way to keep it running. So
-            it picked a winner and stopped. The gap is not the eval. It is that
-            nothing made re-running it as automatic as a test suite.
-          </p>
-          <p>
-            <b>Cost.</b> The most expensive thing we ran was document extraction.
-            The saving did not come from a cheaper model or a spend cap. It came
-            from converting documents to markdown with libraries before anything
-            reached the model, so the tokens were never spent. A per-request
-            ceiling stops a runaway; it does not tell you which workload is
-            expensive or what to do about it. The cheapest token is the one you
-            don’t send.
-          </p>
-          <p>
-            <b>Escalation.</b> Alerts get dismissed. So the flags sit in the
-            architecture instead: they raise on their own and come down only on
-            human intervention, which means a failure blocks the path rather than
-            joining a queue. A durable failure state with an owner. No framework
-            offered one.
-          </p>
-          <p>
-            <b>Memory.</b> A reviewer’s correction routes back to the agent that
-            produced the error and is written into that agent’s memory file as a
-            known issue, loaded on the next run. It is infrastructure, not a
-            triage step. A couple of hundred runs in, the memory is the product of
-            the review team rather than of the prompt. That is the primitive I
-            most wanted and had to build: a way for a human correction to change
-            the next run without anyone editing a prompt.
-          </p>
-        </div>
-      </section>
-
-      <section className="section reveal-el">
-        <Motif src={INTERFERENCE} x={455} top={60} size={300} mode="breathe" dur={84} tilt={-3} opacity={0.34} />
-        <div className="col">
-          <span className="section-label">Basis</span>
-          <div className="basis">
-            <p>A note on how to read the numbers here.</p>
-            <p>
-              Most results on this page are time figures. Twelve hours to ninety
-              minutes. Four hours to thirty. Three days to one. Few are scale
-              figures, and that is a read of the environment rather than a limit
-              of the work.
-            </p>
-            <p>
-              This is a fund administration business with decades of operating
-              history. The binding constraint is not throughput ceiling, it is
-              what a mistake costs. A reconciliation error carries penalty
-              exposure into the hundreds of thousands of pounds. A wrong figure
-              in a client document is not a formatting problem. In that setting
-              the useful question is not how much load a system survives, it is
-              how much of it can run without a person and still be defensible
-              afterwards.
-            </p>
-            <p>
-              Where scale did matter, it is on the page. One workflow was
-              capacity-blocked with a live backlog, and that one is measured in
-              volume.
-            </p>
-          </div>
-        </div>
-      </section>
-
       <section className="section reveal-el">
         <Motif src={CONTOURS} x={465} top={1500} size={270} mode="spin" dur={270} opacity={0.38} />
         <div className="col">
@@ -1321,21 +1510,26 @@ function App() {
             around it.
           </p>
           <div className="essay-body">
-            {ESSAY.map((para, i) => {
-              // Three beats of the argument are set as display type. Same
-              // sentences, lifted out of the column so the piece breathes.
-              const display = i === 3 || i === 8 || i === 13
-              return (
+            {/* The opening argument is on the page. The rest is behind an
+                expander, because a reader who skims is looking for a reason to
+                stop, not a wall to climb. The closing line is never hidden. */}
+            {ESSAY.slice(0, 3).map((para, i) => (
+              <p className={i === 0 ? 'lede' : undefined} key={para.slice(0, 40)}>
+                {para}
+              </p>
+            ))}
+            <details className="essay-more">
+              <summary>Continue reading</summary>
+              {ESSAY.slice(3, 12).map((para, i) => (
                 <p
-                  className={
-                    i === 0 ? 'lede' : display ? 'essay-display' : undefined
-                  }
+                  className={i === 0 || i === 4 ? 'essay-display' : undefined}
                   key={para.slice(0, 40)}
                 >
                   {para}
                 </p>
-              )
-            })}
+              ))}
+            </details>
+            <p className="essay-display">{ESSAY[12]}</p>
           </div>
         </div>
       </section>

@@ -1106,3 +1106,209 @@
     transform: rotate(var(--tilt, 0deg)) !important;
   }
 }
+
+/* Inline cue where an original block lead-in carried meaning the sentence
+   after it depends on. */
+.cue {
+  font-style: italic;
+  color: var(--soft);
+}
+
+/* Essay expander. No animation, no chevron rotation — it opens or it does not. */
+.essay-more {
+  margin: 0;
+}
+
+.essay-more > summary {
+  cursor: pointer;
+  list-style: none;
+  display: inline-block;
+  margin: 30px 0 0;
+  padding: 0 0 3px;
+  font: 500 11px/1 var(--mono);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--soft);
+  border-bottom: 1px solid var(--rule);
+}
+
+.essay-more > summary::-webkit-details-marker {
+  display: none;
+}
+
+.essay-more[open] > summary {
+  margin-bottom: 30px;
+}
+
+.essay-more > summary:hover {
+  color: var(--ink);
+}
+
+/* ============================================================
+   Added figures
+   ============================================================ */
+.fig-scale,
+.fig-fork,
+.fig-form,
+.fig-marks,
+.fig-drivers {
+  max-width: 620px;
+}
+
+.sc-axis,
+.fk-line,
+.sc-move {
+  stroke: currentColor;
+  stroke-width: 1;
+  fill: none;
+  opacity: 0.55;
+}
+
+.sc-move {
+  opacity: 0.85;
+}
+
+.sc-head {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1;
+}
+
+.sc-dot {
+  fill: var(--ground);
+  stroke-width: 1.5;
+}
+
+.sc-dot.is-good {
+  stroke: var(--delivered);
+  fill: var(--delivered);
+}
+
+.sc-dot.is-halt {
+  stroke: var(--halted);
+  fill: var(--halted);
+}
+
+.sc-name,
+.fk-label,
+.fm-label,
+.mk-name,
+.dv-name {
+  font: 500 11px var(--mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  fill: currentColor;
+  text-anchor: middle;
+}
+
+.fk-label,
+.fm-label {
+  text-anchor: start;
+  text-transform: none;
+  letter-spacing: 0.06em;
+  font-weight: 400;
+}
+
+.fk-label.is-halt {
+  fill: var(--halted);
+}
+
+.sc-end,
+.mk-note,
+.dv-note,
+.fm-note {
+  font: 400 10px var(--mono);
+  letter-spacing: 0.1em;
+  fill: var(--soft);
+  text-anchor: start;
+}
+
+.sc-end.is-right,
+.sc-name.is-right {
+  text-anchor: end;
+}
+
+.sc-name.is-left {
+  text-anchor: start;
+}
+
+.mk-note,
+.dv-note {
+  text-anchor: middle;
+  font-size: 9px;
+  letter-spacing: 0.04em;
+}
+
+.fk-line.is-halt {
+  stroke: var(--halted);
+  opacity: 0.75;
+}
+
+.fk-dot.is-good {
+  fill: var(--delivered);
+}
+
+.fk-stop {
+  stroke: var(--halted);
+  stroke-width: 1.4;
+}
+
+.fm-bar {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1;
+  opacity: 0.55;
+}
+
+.fm-bar.is-fill {
+  fill: var(--delivered);
+  stroke: var(--delivered);
+  opacity: 1;
+}
+
+.fm-value {
+  font: 400 26px var(--display);
+  fill: var(--delivered);
+  text-anchor: end;
+}
+
+.fm-note {
+  text-anchor: end;
+}
+
+.mk {
+  stroke: currentColor;
+  stroke-width: 1.2;
+  fill: none;
+  opacity: 0.8;
+}
+
+.dv-num {
+  font: 400 30px var(--display);
+  font-style: italic;
+  fill: currentColor;
+  text-anchor: middle;
+  opacity: 0.75;
+}
+
+.dv-rule {
+  stroke: currentColor;
+  stroke-width: 1;
+  opacity: 0.3;
+}
+
+@media (max-width: 640px) {
+  .sc-name,
+  .fk-label,
+  .fm-label,
+  .mk-name,
+  .dv-name {
+    font-size: 10px;
+  }
+  .sc-end,
+  .mk-note,
+  .dv-note,
+  .fm-note {
+    font-size: 9px;
+  }
+}
