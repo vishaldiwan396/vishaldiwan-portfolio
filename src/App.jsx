@@ -24,16 +24,20 @@ function Curve({ index = 0 }) {
   )
 }
 
-/* Before / after on the same scale. The Basis note argues every result
-   here is a time figure; this is that argument made visible. */
-function TimeBar({ label, beforeLabel, afterLabel, ratio }) {
+/* Before / after on the same scale — usually a time figure going down,
+   but beforeRatio lets a bar represent a quantity going up instead
+   (e.g. capacity) without the longer bar overflowing its track. */
+function TimeBar({ label, beforeLabel, afterLabel, ratio, beforeRatio = 1 }) {
   return (
     <div className="timebar reveal-el">
       <p className="timebar-label">{label}</p>
       <div className="timebar-row">
         <span className="timebar-key">Before</span>
         <span className="timebar-track">
-          <span className="timebar-fill is-before" />
+          <span
+            className="timebar-fill is-before"
+            style={{ '--w': `${Math.round(beforeRatio * 100)}%` }}
+          />
         </span>
         <span className="timebar-val">{beforeLabel}</span>
       </div>
@@ -860,10 +864,11 @@ const CASES = [
     stamp: { tone: 'delivered', label: 'Delivered' },
     meta: 'EPIC Investment Partners · 2024–',
     time: {
-      label: 'Manual data entry per form',
-      beforeLabel: '15 minutes',
-      afterLabel: 'under 3 minutes',
-      ratio: 0.2,
+      label: 'KYC forms processed per day',
+      beforeLabel: '30/day',
+      afterLabel: '300+/day capacity',
+      beforeRatio: 0.1,
+      ratio: 1,
     },
     body: [
       {

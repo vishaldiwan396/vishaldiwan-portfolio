@@ -617,7 +617,7 @@
 }
 
 .timebar-fill.is-before {
-  width: 100%;
+  width: var(--w, 100%);
   background: rgba(35, 32, 27, 0.32);
 }
 
@@ -639,7 +639,7 @@
 }
 
 .reveal-ready .timebar.in .timebar-fill.is-before {
-  width: 100%;
+  width: var(--w, 100%);
 }
 
 .reveal-ready .timebar.in .timebar-fill.is-after {
@@ -886,7 +886,7 @@
   }
   .reveal-ready .timebar .timebar-fill.is-before,
   .reveal-ready .timebar.in .timebar-fill.is-before {
-    width: 100%;
+    width: var(--w, 100%);
     transition: none;
   }
   .reveal-ready .timebar .timebar-fill.is-after,
