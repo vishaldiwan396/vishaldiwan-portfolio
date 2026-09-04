@@ -1243,7 +1243,7 @@ function App() {
             <b>Memory.</b> A reviewer’s correction routes back to the agent that
             produced the error and is written into that agent’s memory file as a
             known issue, loaded on the next run. It is infrastructure, not a
-            triage step. Two hundred iterations in, the memory is the product of
+            triage step. A couple of hundred runs in, the memory is the product of
             the review team rather than of the prompt. That is the primitive I
             most wanted and had to build: a way for a human correction to change
             the next run without anyone editing a prompt.
