@@ -761,7 +761,7 @@ const WORK = [
     meta: 'EPIC portfolio company · 2024–',
     text: ' consolidated Island Pacific retail data, WSSI and warehouse Excel into one Databricks source of truth with a LangChain NL-to-SQL layer. Replaced per-team spreadsheets across procurement, warehouse, stores, shipment.',
     stamps: [
-      { tone: 'delivered', label: 'Delivered' },
+      { tone: 'halted', label: 'Prototype' },
       { tone: 'halted', label: 'TimesFM in development' },
     ],
   },
@@ -1074,90 +1074,6 @@ function App() {
         <Curve index={1} />
       </div>
 
-      <section className="section reveal-el" id="chosen">
-        <Motif src={TRIBUTARIES} x={470} top={150} size={330} mode="breathe" dur={72} tilt={4} opacity={0.6} />
-        <div className="col prose">
-          <span className="section-label">How the work got chosen</span>
-          <p>
-            None of this started as an AI project. It started as a programme to
-            review and automate administration processes across three areas of
-            the business, and the interesting decisions were about which three
-            and in what order.
-          </p>
-          <p>
-            <b>Penalty exposure first.</b> Reconciliation was picked because
-            rules already existed and people were checking against them by hand,
-            copy-pasting between sources into spreadsheets. The work was well
-            defined and the cost of getting it wrong was high. That combination
-            is the strongest case for automation there is.
-          </p>
-          <p>
-            <b>Then capacity.</b> Onboarding checks were the bottleneck: a team
-            of five clearing about thirty forms a day, a backlog behind them, and
-            orders being turned away for lack of throughput. Here volume was the
-            point.
-          </p>
-          <p>
-            <b>Then auditability.</b> Payroll processing is client-facing service
-            work rather than product. It is still largely manual, deliberately.
-            What it needed was a trail, not a model.
-          </p>
-          <p>
-            Three areas, three different reasons, each stated before the build.
-            Roadmap and KPIs are set quarterly. In practice priorities move on a
-            two-week cycle, which is why the team works in sprints against a
-            quarterly frame. Every technical initiative goes to a fortnightly
-            forum with the CEO, Chairman and the managing directors who own each
-            area. I present the case and take the questions.
-          </p>
-          <p>
-            A small team does not get to build things and throw them away, so the
-            killing happens before the building. I prototype everything myself,
-            and a prototype exists to answer three questions: will the business
-            actually adopt this, how much time does it really save, and what
-            should we not build. A warehouse automation flow died that way. So
-            did an attempt to clean incoming data from scattered sources without a
-            person in the loop.
-          </p>
-          <p>
-            We still write epics. We stopped writing PRDs. A working demo, built
-            with AI in the time a document would have taken, settles arguments a
-            document cannot.
-          </p>
-        </div>
-      </section>
-
-      <section className="section reveal-el">
-        <Motif src={INTERFERENCE} x={455} top={60} size={300} mode="breathe" dur={84} tilt={-3} opacity={0.34} />
-        <div className="col">
-          <span className="section-label">Basis</span>
-          <div className="basis">
-            <p>A note on how to read the numbers here.</p>
-            <p>
-              Most results on this page are time figures. Twelve hours to ninety
-              minutes. Four hours to thirty. Three days to one. Few are scale
-              figures, and that is a read of the environment rather than a limit
-              of the work.
-            </p>
-            <p>
-              This is a fund administration business with decades of operating
-              history. The binding constraint is not throughput ceiling, it is
-              what a mistake costs. A reconciliation error carries penalty
-              exposure into the hundreds of thousands of pounds. A wrong figure
-              in a client document is not a formatting problem. In that setting
-              the useful question is not how much load a system survives, it is
-              how much of it can run without a person and still be defensible
-              afterwards.
-            </p>
-            <p>
-              Where scale did matter, it is on the page. One workflow was
-              capacity-blocked with a live backlog, and that one is measured in
-              volume.
-            </p>
-          </div>
-        </div>
-      </section>
-
       <section className="section">
         <Motif src={BRAID} x={-450} top={6900} size={400} mode="breathe" dur={80} tilt={-5} opacity={0.4} />
         <Motif src={TRIBUTARIES} x={-465} top={4600} size={300} mode="spin" dur={240} opacity={0.55} />
@@ -1229,6 +1145,207 @@ function App() {
         <Curve index={1} />
       </div>
 
+
+      <section className="section reveal-el" id="chosen">
+        <Motif src={TRIBUTARIES} x={470} top={150} size={330} mode="breathe" dur={72} tilt={4} opacity={0.6} />
+        <div className="col prose">
+          <span className="section-label">How the work got chosen</span>
+          <p>
+            None of this started as an AI project. It started as a programme to
+            review and automate administration processes across three areas of
+            the business, and the interesting decisions were about which three
+            and in what order.
+          </p>
+          <p>
+            <b>Penalty exposure first.</b> Reconciliation was picked because
+            rules already existed and people were checking against them by hand,
+            copy-pasting between sources into spreadsheets. The work was well
+            defined and the cost of getting it wrong was high. That combination
+            is the strongest case for automation there is.
+          </p>
+          <p>
+            <b>Then capacity.</b> Onboarding checks were the bottleneck: a team
+            of five clearing about thirty forms a day, a backlog behind them, and
+            orders being turned away for lack of throughput. Here volume was the
+            point.
+          </p>
+          <p>
+            <b>Then auditability.</b> Payroll processing is client-facing service
+            work rather than product. It is still largely manual, deliberately.
+            What it needed was a trail, not a model.
+          </p>
+          <p>
+            Three areas, three different reasons, each stated before the build.
+            Roadmap and KPIs are set quarterly. In practice priorities move on a
+            two-week cycle, which is why the team works in sprints against a
+            quarterly frame. Every technical initiative goes to a fortnightly
+            forum with the CEO, Chairman and the managing directors who own each
+            area. I present the case and take the questions.
+          </p>
+          <p>
+            A small team does not get to build things and throw them away, so the
+            killing happens before the building. I prototype everything myself,
+            and a prototype exists to answer three questions: will the business
+            actually adopt this, how much time does it really save, and what
+            should we not build. A warehouse automation flow died that way. So
+            did an attempt to clean incoming data from scattered sources without a
+            person in the loop.
+          </p>
+          <p>
+            We still write epics. We stopped writing PRDs. A working demo, built
+            with AI in the time a document would have taken, settles arguments a
+            document cannot.
+          </p>
+          <p>
+            A process that lives in one person’s head leaves when they do, and
+            the ones that get abandoned are the ones nobody else could run. So
+            the settings sit with the teams that use them, and what is running is
+            written down where the business can see it. The test is not whether
+            it works while I am watching it.
+          </p>
+        </div>
+      </section>
+
+      <div className="col">
+        <Curve index={2} />
+      </div>
+
+      <section className="section reveal-el">
+        <Motif src={SEAL} x={-455} top={90} size={290} mode="spin" dur={205} opacity={0.5} />
+        <Motif src={CONTOURS} x={470} top={760} size={300} mode="breathe" dur={74} tilt={-4} opacity={0.4} />
+        <div className="col prose">
+          <span className="section-label">What was missing</span>
+          <p>Four things I wanted from the tooling and did not find.</p>
+          <p>
+            <b>Evals.</b> Evals are test cases. Nothing more exotic than that:
+            assertions that keep refining as you learn what breaks. We built a
+            harness to choose an extraction model, 5,000+ field-level comparisons
+            across six models, and then had no cheap way to keep it running. So
+            it picked a winner and stopped. The gap is not the eval. It is that
+            nothing made re-running it as automatic as a test suite.
+          </p>
+          <p>
+            <b>Cost.</b> The most expensive thing we ran was document extraction.
+            The saving did not come from a cheaper model or a spend cap. It came
+            from converting documents to markdown with libraries before anything
+            reached the model, so the tokens were never spent. A per-request
+            ceiling stops a runaway; it does not tell you which workload is
+            expensive or what to do about it. The cheapest token is the one you
+            don’t send.
+          </p>
+          <p>
+            <b>Escalation.</b> Alerts get dismissed. So the flags sit in the
+            architecture instead: they raise on their own and come down only on
+            human intervention, which means a failure blocks the path rather than
+            joining a queue. A durable failure state with an owner. No framework
+            offered one.
+          </p>
+          <p>
+            <b>Memory.</b> A reviewer’s correction routes back to the agent that
+            produced the error and is written into that agent’s memory file as a
+            known issue, loaded on the next run. It is infrastructure, not a
+            triage step. Two hundred iterations in, the memory is the product of
+            the review team rather than of the prompt. That is the primitive I
+            most wanted and had to build: a way for a human correction to change
+            the next run without anyone editing a prompt.
+          </p>
+        </div>
+      </section>
+
+      <section className="section reveal-el">
+        <Motif src={INTERFERENCE} x={455} top={60} size={300} mode="breathe" dur={84} tilt={-3} opacity={0.34} />
+        <div className="col">
+          <span className="section-label">Basis</span>
+          <div className="basis">
+            <p>A note on how to read the numbers here.</p>
+            <p>
+              Most results on this page are time figures. Twelve hours to ninety
+              minutes. Four hours to thirty. Three days to one. Few are scale
+              figures, and that is a read of the environment rather than a limit
+              of the work.
+            </p>
+            <p>
+              This is a fund administration business with decades of operating
+              history. The binding constraint is not throughput ceiling, it is
+              what a mistake costs. A reconciliation error carries penalty
+              exposure into the hundreds of thousands of pounds. A wrong figure
+              in a client document is not a formatting problem. In that setting
+              the useful question is not how much load a system survives, it is
+              how much of it can run without a person and still be defensible
+              afterwards.
+            </p>
+            <p>
+              Where scale did matter, it is on the page. One workflow was
+              capacity-blocked with a live backlog, and that one is measured in
+              volume.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="section reveal-el">
+        <Motif src={CONTOURS} x={465} top={1500} size={270} mode="spin" dur={270} opacity={0.38} />
+        <div className="col">
+          <span className="section-label">Scope</span>
+          <div className="scope">
+            {SCOPE.map((row) => (
+              <div className="scope-row" key={row.key}>
+                <p className="scope-key">{row.key}</p>
+                <p className="scope-val">
+                  {row.value}
+                  {row.stamp ? (
+                    <Stamp tone={row.stamp.tone}>{row.stamp.label}</Stamp>
+                  ) : null}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <div className="col">
+        <Curve index={3} />
+      </div>
+
+
+      <section className="section reveal-el essay">
+        <Motif src={TRIBUTARIES} x={470} top={2500} size={280} mode="breathe" dur={70} tilt={5} opacity={0.55} />
+        <Motif src={INTERFERENCE} x={-460} top={3600} size={290} mode="breathe" dur={76} tilt={3} opacity={0.32} />
+        <Motif src={SEAL} x={455} top={5700} size={250} mode="spin" dur={220} opacity={0.44} />
+        <Motif src={TRIBUTARIES} x={465} top={8000} size={310} mode="drift" rate={0.045} tilt={-3} opacity={0.55} />
+        <div className="col">
+          <span className="section-label">Writing</span>
+          <h3>Earned Autonomy</h3>
+          <p className="essay-standfirst">
+            Most of the judgement in AI product work is deciding what not to
+            automate, and when to wait for the technology instead of building
+            around it.
+          </p>
+          <div className="essay-body">
+            {ESSAY.map((para, i) => {
+              // Three beats of the argument are set as display type. Same
+              // sentences, lifted out of the column so the piece breathes.
+              const display = i === 3 || i === 8 || i === 13
+              return (
+                <p
+                  className={
+                    i === 0 ? 'lede' : display ? 'essay-display' : undefined
+                  }
+                  key={para.slice(0, 40)}
+                >
+                  {para}
+                </p>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
+      <div className="col">
+        <Curve index={2} />
+      </div>
+
+
       <section className="section reveal-el">
         <Motif src={ROSETTE} x={-475} top={40} size={210} mode="spin" dur={180} opacity={0.45} />
         <div className="col">
@@ -1268,67 +1385,6 @@ function App() {
           </ul>
         </div>
       </section>
-
-      <section className="section reveal-el">
-        <Motif src={CONTOURS} x={465} top={1500} size={270} mode="spin" dur={270} opacity={0.38} />
-        <div className="col">
-          <span className="section-label">Scope</span>
-          <div className="scope">
-            {SCOPE.map((row) => (
-              <div className="scope-row" key={row.key}>
-                <p className="scope-key">{row.key}</p>
-                <p className="scope-val">
-                  {row.value}
-                  {row.stamp ? (
-                    <Stamp tone={row.stamp.tone}>{row.stamp.label}</Stamp>
-                  ) : null}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <div className="col">
-        <Curve index={3} />
-      </div>
-
-      <section className="section reveal-el essay">
-        <Motif src={TRIBUTARIES} x={470} top={2500} size={280} mode="breathe" dur={70} tilt={5} opacity={0.55} />
-        <Motif src={INTERFERENCE} x={-460} top={3600} size={290} mode="breathe" dur={76} tilt={3} opacity={0.32} />
-        <Motif src={SEAL} x={455} top={5700} size={250} mode="spin" dur={220} opacity={0.44} />
-        <Motif src={TRIBUTARIES} x={465} top={8000} size={310} mode="drift" rate={0.045} tilt={-3} opacity={0.55} />
-        <div className="col">
-          <span className="section-label">Writing</span>
-          <h3>Earned Autonomy</h3>
-          <p className="essay-standfirst">
-            Most of the judgement in AI product work is deciding what not to
-            automate, and when to wait for the technology instead of building
-            around it.
-          </p>
-          <div className="essay-body">
-            {ESSAY.map((para, i) => {
-              // Three beats of the argument are set as display type. Same
-              // sentences, lifted out of the column so the piece breathes.
-              const display = i === 3 || i === 8 || i === 13
-              return (
-                <p
-                  className={
-                    i === 0 ? 'lede' : display ? 'essay-display' : undefined
-                  }
-                  key={para.slice(0, 40)}
-                >
-                  {para}
-                </p>
-              )
-            })}
-          </div>
-        </div>
-      </section>
-
-      <div className="col">
-        <Curve index={2} />
-      </div>
 
       <section className="contact reveal-el">
         <Motif src={INTERFERENCE} x={-450} top={1050} size={260} mode="spin" dur={280} opacity={0.32} />
