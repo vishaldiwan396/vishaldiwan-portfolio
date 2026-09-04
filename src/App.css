@@ -931,6 +931,26 @@
     flex-direction: row;
     gap: 14px;
   }
+  .diagram {
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    position: relative;
+  }
+  .diagram svg {
+    width: 620px;
+    max-width: none;
+    flex-shrink: 0;
+  }
+  .diagram::before {
+    content: 'Swipe to see the full diagram →';
+    display: block;
+    font: 500 10px/1 var(--mono);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--soft);
+    margin-bottom: 10px;
+  }
 }
 
 /* ============================================================
@@ -1032,6 +1052,7 @@
   height: 2rem;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: 0 22px;
   background: var(--ground);
   border-bottom: 1px solid var(--rule-faint);
@@ -1044,6 +1065,43 @@
   text-transform: uppercase;
   color: var(--soft);
   text-decoration: none;
+}
+
+.runhead-nav {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.runhead-nav a:hover {
+  color: var(--ink);
+}
+
+/* Hero quick-links */
+.hero-links {
+  display: flex;
+  gap: 20px;
+  margin: 22px 0 0;
+}
+
+.hero-links a {
+  font: 500 11px/1 var(--mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink);
+  text-decoration: none;
+  padding-bottom: 3px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.hero-links a:hover {
+  border-color: var(--ink);
+}
+
+@media (max-width: 640px) {
+  .runhead-nav {
+    gap: 12px;
+  }
 }
 
 /* Contents block */
@@ -1122,26 +1180,45 @@
 .essay-more > summary {
   cursor: pointer;
   list-style: none;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
   margin: 30px 0 0;
-  padding: 0 0 3px;
+  padding: 7px 14px;
   font: 500 11px/1 var(--mono);
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--soft);
-  border-bottom: 1px solid var(--rule);
+  color: var(--ink);
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  transition: border-color 0.2s ease, background 0.2s ease;
 }
 
 .essay-more > summary::-webkit-details-marker {
   display: none;
 }
 
+.essay-more > summary::after {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-right: 1px solid currentColor;
+  border-bottom: 1px solid currentColor;
+  transform: rotate(45deg) translateY(-2px);
+  transition: transform 0.2s ease;
+}
+
 .essay-more[open] > summary {
   margin-bottom: 30px;
 }
 
+.essay-more[open] > summary::after {
+  transform: rotate(-135deg) translateY(1px);
+}
+
 .essay-more > summary:hover {
-  color: var(--ink);
+  border-color: var(--ink);
+  background: rgba(35, 32, 27, 0.04);
 }
 
 /* ============================================================

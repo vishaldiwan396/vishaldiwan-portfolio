@@ -1181,8 +1181,17 @@ function App() {
   return (
     <div className="page">
       <div className="progress" ref={progressRef} aria-hidden="true" />
-      <div className="runhead" aria-hidden="true">
-        <a href="#contents">{artKey === 'masthead' ? 'Vishal Diwan' : artKey}</a>
+      <div className="runhead">
+        <a href="#contents" aria-hidden="true">
+          {artKey === 'masthead' ? 'Vishal Diwan' : artKey}
+        </a>
+        <nav className="runhead-nav" aria-label="Quick links">
+          <a href="#scope">Scope</a>
+          <a href="#contact">Contact</a>
+          <a href="./resume/Vishal_Diwan_Resume.pdf" target="_blank" rel="noreferrer">
+            Résumé
+          </a>
+        </nav>
       </div>
 
       <header className="masthead">
@@ -1202,6 +1211,12 @@ function App() {
             I put AI into production where a wrong figure has a price. The work
             is deciding how much of it runs unattended.
           </p>
+          <p className="hero-links">
+            <a href="./resume/Vishal_Diwan_Resume.pdf" target="_blank" rel="noreferrer">
+              Résumé (PDF)
+            </a>
+            <a href="#contact">Contact</a>
+          </p>
         </div>
         <div className="col">
           <Field />
@@ -1217,21 +1232,17 @@ function App() {
         <div className="col prose">
           <p>
             In 2020 I joined a lunch-delivery startup in New York as employee
-            number eight. Two months later there was a pandemic and no lunches.
-            We pivoted to corporate gifting and the company went from zero to
-            $20M ARR in eight months. I started on product analysis and grew into
-            associate product manager and then PM as the team scaled, shipping
-            four products from nothing. Early on I also built the release and
-            testing infrastructure, because at that speed what breaks is not the
-            product, it is everything around it.
+            number eight. Two months in, the pandemic ended the lunches; we
+            pivoted to corporate gifting and went from zero to $20M ARR in
+            eight months. I grew from product analyst into PM, shipping four
+            products from nothing, and built the release and testing
+            infrastructure along the way.
           </p>
           <p>
             In 2024 I became the first Product Manager in EPIC Investment
-            Partners’ history. A UK investment and fund administration business,
-            decades of operating history, £3bn+ in administered assets, and no
-            product function. Nothing about the pace was familiar and nothing
-            about the stakes was either. Speed was not the constraint here. Being
-            wrong was.
+            Partners’ history — a UK fund administration business with decades
+            of operating history and no product function. Speed was not the
+            constraint here. Being wrong was.
           </p>
           <p className="pull">
             That is where the AI work started, and the question underneath all of
@@ -1471,7 +1482,7 @@ function App() {
         </div>
       </section>
 
-      <section className="section reveal-el">
+      <section className="section reveal-el" id="scope">
         <Motif src={CONTOURS} x={465} top={1500} size={270} mode="spin" dur={270} opacity={0.38} />
         <div className="col">
           <span className="section-label">Scope</span>
@@ -1579,7 +1590,7 @@ function App() {
         </div>
       </section>
 
-      <section className="contact reveal-el">
+      <section className="contact reveal-el" id="contact">
         <Motif src={INTERFERENCE} x={-450} top={1050} size={260} mode="spin" dur={280} opacity={0.32} />
         <div className="col">
           <span className="section-label">Contact</span>
@@ -1596,6 +1607,11 @@ function App() {
                 rel="noreferrer"
               >
                 linkedin.com/in/vishaldiwan396
+              </a>
+            </li>
+            <li>
+              <a href="./resume/Vishal_Diwan_Resume.pdf" target="_blank" rel="noreferrer">
+                Résumé (PDF)
               </a>
             </li>
           </ul>
