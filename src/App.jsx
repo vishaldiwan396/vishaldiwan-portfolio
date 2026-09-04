@@ -176,7 +176,7 @@ function McpDiagram() {
         <g className="dg-node" data-step="3">
           <rect x="350" y="90" width="250" height="52" />
           <text x="475" y="114">Research agent</text>
-          <text x="475" y="131" className="dg-sub">people · Amplify</text>
+          <text x="475" y="131" className="dg-sub">people · Apify</text>
         </g>
 
         <g className="dg-edge" data-step="4">
@@ -453,7 +453,7 @@ const PRINCIPLES = [
   },
   {
     line: 'Who else gets to make these calls.',
-    note: 'Twelve AI skills run in production and I am not the bottleneck on any of them. An eight-module curriculum takes teams from prompting through connectors, research and building their own skills, against a live dossier of what is running. The people closest to a workflow should decide how much of it a model holds.',
+    note: 'Twelve AI skills run in production and none of them depends on me to keep running. An eight-module curriculum takes teams from prompting through connectors, research and building their own skills, against a live dossier of what is running. The people closest to a workflow should decide how much of it a model holds.',
   },
 ]
 
@@ -669,7 +669,7 @@ const CASES = [
       },
       {
         lead: 'Result.',
-        text: ' In production across 12 document types. The five-person team was clearing about thirty forms a day; capacity is now over three hundred a day with no added headcount, and actual run-rate sits at seven to eight hundred a week against real demand. Manual entry per form fell from fifteen minutes to under three. Clean-pass runs 90%+ on UK English-language documents and around 70% on German, French and Swiss ones; the rest are handled by hand.',
+        text: ' In production across 12 document types. The five-person team was clearing about thirty forms a day; capacity is now over three hundred a day with no added headcount, and actual run-rate sits at seven to eight hundred a week against real demand. Manual entry per form fell from fifteen minutes to under three. Clean-pass runs above 90% on UK English-language documents and around 70% on German, French and Swiss ones; the rest are handled by hand.',
       },
       {
         lead: 'What I take from it.',
@@ -738,7 +738,7 @@ const CASES = [
       },
       {
         lead: 'The shape of it.',
-        text: ' Two research agents, one for financial detail and one for people, the second wired to Amplify. A collator merges their output into a single source of truth. A checker verifies every citation and reviews the flags the research agents raised. A person then reviews content and facts, and only after that does a presentation agent build the deck. After QA, a director agent takes the directors’ feedback on the finished output; after roughly thirty runs it carries most of it.',
+        text: ' Two research agents, one for financial detail and one for people, the second wired to Apify. A collator merges their output into a single source of truth. A checker verifies every citation and reviews the flags the research agents raised. A person then reviews content and facts, and only after that does a presentation agent build the deck. After QA, a director agent takes the directors’ feedback on the finished output; after roughly thirty runs it carries most of it.',
       },
       { lead: 'Result.', text: ' Twelve hours to ninety minutes.' },
       {
@@ -985,9 +985,8 @@ function App() {
             Partners.
           </p>
           <p className="standfirst">
-            I arrive where the rules do not exist yet and write them. Twice that
-            meant a product function. Now it means deciding what a model is
-            allowed to do without asking.
+            I put AI into production where a wrong figure has a price. The work
+            is deciding how much of it runs unattended.
           </p>
         </div>
         <div className="col">
@@ -1003,27 +1002,27 @@ function App() {
         <Motif src={BRAID} x={-470} top={210} size={380} mode="breathe" dur={58} tilt={-8} opacity={0.42} />
         <div className="col prose">
           <p>
-            In 2020 I joined a New York lunch-delivery startup as employee number
-            eight.
-            Two months later there was a pandemic and no lunches. We pivoted to
-            corporate gifting and the company went from zero to $20M ARR in eight
-            months. My first build was not a feature. It was the QA and release
-            infrastructure, because at that growth rate nothing else was going to
-            hold.
+            In 2020 I joined a lunch-delivery startup in New York as employee
+            number eight. Two months later there was a pandemic and no lunches.
+            We pivoted to corporate gifting and the company went from zero to
+            $20M ARR in eight months. I started on product analysis and grew into
+            associate product manager and then PM as the team scaled, shipping
+            four products from nothing. Early on I also built the release and
+            testing infrastructure, because at that speed what breaks is not the
+            product, it is everything around it.
           </p>
           <p>
             In 2024 I became the first Product Manager in EPIC Investment
             Partners’ history. A UK investment and fund administration business,
             decades of operating history, £3bn+ in administered assets, and no
-            product function. Before I could ship anything I had to settle what a
-            PRD meant here, who signs off on an AI system that touches client
-            money, and what evidence a model has to produce before an operations
-            team will act on its output.
+            product function. Nothing about the pace was familiar and nothing
+            about the stakes was either. Speed was not the constraint here. Being
+            wrong was.
           </p>
           <p className="pull">
-            Both times the first thing I built was a rule rather than a feature.
-            The rule that matters now is the one about how much a system gets to
-            decide on its own.
+            That is where the AI work started, and the question underneath all of
+            it is the same one every time: how much of this should run without a
+            person watching.
           </p>
         </div>
       </section>
