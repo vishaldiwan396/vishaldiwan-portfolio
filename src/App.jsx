@@ -1214,7 +1214,7 @@ function App() {
         <Motif src={SEAL} x={-455} top={90} size={290} mode="spin" dur={205} opacity={0.5} />
         <Motif src={CONTOURS} x={470} top={760} size={300} mode="breathe" dur={74} tilt={-4} opacity={0.4} />
         <div className="col prose">
-          <span className="section-label">What was missing</span>
+          <span className="section-label">Infrastructure</span>
           <p>
             <b>Evals.</b> Evals are test cases. Nothing more exotic than that:
             assertions that keep refining as you learn what breaks. We built a
